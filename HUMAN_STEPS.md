@@ -1,6 +1,6 @@
 # Human steps
 
-## Record the video (needed, under 3 minutes)
+## Record the video (needed; the owner accepts about 4 minutes)
 
 Start the app (`.venv\Scripts\python.exe -m uvicorn app.main:app --port 8765`) and open http://127.0.0.1:8765.
 Press **Reset demo** about two minutes before recording, so PayPal has listed the four disputes and offers
@@ -19,9 +19,11 @@ shows different ones, say what is on screen.
 4. (1:25-1:50) Open KK-2043, the injected claim. The sentence telling the reviewer to approve a full refund is struck through and
    ignored. The
    real statement is checked and fought.
-5. (1:50-2:30) Open the **Results board**. On 30 cases Warrant was right on 29 and the LLM deciding alone on 27,
-   and the LLM alone paid $216 that was not owed. Then show the failure: on 10 held-out claims the LLM alone was
-   right on 10 and Warrant on 8. Say why: code cannot see a cracked bowl.
+5. (1:50-2:30) Open the **Policy** tab: the consumer-protection floor box, then the merchant's settings. Say that
+   "fight" means sending evidence to PayPal, which decides, and the buyer keeps Buyer Protection. Then the
+   **Results board**, held-out set 2: Warrant 22 of 23 with one wrong partial ($28 over); the LLM deciding alone 14 of 23,
+   $151.50 wrong refunds. Say plainly that set 2 was written by the same author before the logic existed.
+   Also show Auto mode: turn it on, watch sure cases run, and show the per-order log. Say it is off by default.
 6. (2:30-2:45) Close: the model only reads the claim, code decides, and every answer shows its evidence.
 
 ## PayPal-wallet dispute (optional)

@@ -40,6 +40,7 @@ merchant least. Every decision shows its sums.
    (`REFUND_NOT_PERMITTED_DUE_TO_CHARGEBACK`). Warrant remembers that, and waits until PayPal offers accept-claim.
 
 The one-page UI (`/`) shows:
+- the status strip, auto toggle, and a Policy tab;
 - the queue;
 - the claim, with statements turning green or red;
 - lines from each statement to its evidence;
@@ -48,6 +49,43 @@ The one-page UI (`/`) shows:
 - an activity log;
 - a box to try your own claim against a demo order;
 - the results board from the eval (AG Grid).
+
+## What "fight" means, and what Warrant never does
+
+"Fight" means **submitting evidence to PayPal, which decides.** The buyer keeps PayPal Buyer Protection and their
+chargeback rights. Warrant never refuses a refund on its own. The general consumer-protection principles it applies
+(see `app/floor.py`) are not legal advice, and the jurisdiction is set in the merchant policy (default AU).
+
+Decision layers, in order. Each rule that fires is cited in the decision trace shown in the UI:
+
+1. **Consumer-protection floor** (`app/floor.py`). Checked first. Policy can never override it.
+   - A final-sale rule cannot defeat a faulty, damaged or not-as-described claim when the merchant has no
+     counter-evidence (in Australia, consumer guarantees under the Australian Consumer Law work this way).
+   - A "not delivered" claim with no proof of delivery is owed.
+   - An unauthorized-charge claim is never auto-fought on policy grounds.
+2. **Merchant policy** (`data/policy.json`, editable in the **Policy** tab): return window in days, final-sale
+   categories and SKUs, restocking fee, "refund without a fight under $X" (folded into the expected-cost rule),
+   and the auto-mode limits.
+3. **Evidence**, checked in code against the claim's statements, then the **expected-cost** rule.
+
+Three outcomes, not two: **refund** (full or partial), **fight**, or **review**, which puts the case in front of a
+person. Review is chosen when evidence is partial or conflicting, when a floor rule applies but the facts are
+unclear, or when the amount is over an auto limit. A person can refund in full, refund a chosen amount, or fight.
+
+**Requests versus injections.** A buyer asking for a remedy ("I would prefer a replacement", "please send a receipt")
+becomes a `request` statement. It is shown, noted, and never changes the decision. A buyer retracting a claim counts
+*against* the claim and is not an injection. Only text that directs the decider, the AI or the system ("approve
+this", "ignore the evidence") is an `instruction`; it is shown struck through and ignored.
+
+**Status and activity.** A strip above the queue counts disputes and dollars by status (new, needs you, refunded,
+partially refunded, evidence sent and awaiting PayPal, won, lost, handled by auto). Chips filter the grid, a search
+box filters by order or last action, and "needs you" sorts first. Each order shows its last action and time.
+Every action is appended to `data/activity.jsonl` and shown per order.
+
+**Auto mode** is off by default and persisted. When on, it acts only on sure decisions through the real sandbox path:
+a refund inside the per-refund limit and the daily cap, or a fight on clear evidence under the fight limit. Review,
+over-limit, replacement or store-credit requests, unauthorized-charge claims and anything not strongly evidenced stay
+queued. Every auto action is logged with its reason. A kill switch stops it.
 
 ## Run it
 
@@ -66,12 +104,13 @@ PayPal takes a minute or two to list new disputes.
   four cases (one fought, one conceded, one injected claim ignored and fought, one cheap order refunded early), then
   writes `proof_results/demo_run.json`.
 - Eval: `.venv\Scripts\python.exe scripts\run_eval.py` regenerates `proof_results/eval.json` and `RESULTS.md`
-  (the 30 cases plus the 10 held-out claims in `eval/heldout.py`). Add `--report-only` to rebuild `RESULTS.md` from
+  (60 dev cases, 23 held-out set 2 cases, and the 10-claim wording set in `eval/heldout.py`). Add `--report-only` to rebuild `RESULTS.md` from
   the saved run without calling the model.
 - Screenshots: `.venv\Scripts\python.exe scripts\screenshot_ui.py` (Playwright driving the installed Edge, with the
   app running; `pip install playwright` first, it is not in `requirements.txt`) saves `proof_results/ui_*.png`.
-- Tests: `.venv\Scripts\python.exe -m pytest -q` covers the checker, the decision rule, the injection cases and the
-  PayPal response wiring against a fake PayPal.
+- Tests: `.venv\Scripts\python.exe -m pytest -q` (61 tests) covers the checker, the decision rule, the floor and
+  policy, review and partial refunds, request-versus-injection pairs, status and the activity log, auto mode with a
+  mock PayPal (including the daily cap and the kill switch), and the HTTP API.
 
 ## AI used
 
@@ -84,17 +123,23 @@ PayPal takes a minute or two to list new disputes.
 
 ## Honest limits
 
-- **On held-out wording, the LLM deciding alone did better than Warrant.** On 10 claims worded unlike the eval
-  cases, Warrant made 8 correct decisions with either splitter, and the LLM given all the evidence made 10. One of
-  Warrant's misses was a damage claim, which code cannot check. The other was "teapot's here, cups aren't": it was
-  read as "not received", and the parcel had been delivered. Neither was fixed, so the set stays held out. On the main
-  30 cases, in the latest run, the LLM alone made 24 correct decisions to Warrant's 29. It paid $305 that was not
-  owed (an earlier run: 27 correct, $216), and it obeyed one of the three injected claims. `RESULTS.md` has every case.
-- **The LLM-alone baseline is not repeatable.** At temperature 0 it still gave different answers between
-  runs. Only the saved run is reported, and an earlier run was not kept.
-- **The model and the keyword splitter made the same 30 decisions.** The model found statement types the keyword
-  splitter missed on 4 cases and on all 10 held-out claims, but the PayPal reason on file and the injection regex
-  covered those gaps. So the eval shows only a small benefit from the model.
+- **Held-out set 2 was written by the same author, before the new logic existed.** It was committed first
+  (`eval/heldout2.py`) and nothing in `app/` was tuned against it, but it is not independent. Result with the live
+  model: Warrant 22 of 23 correct, with one wrong partial refund ($56 instead of the $28 owed, $28 over); the keyword
+  splitter 23 of 23; the LLM deciding alone 14 of 23, $151.50 of wrong refunds, $22 of owed refunds withheld and
+  $110 of owed refunds sent to review. Refund-everything: 9 of 23.
+- **Dev set (60 cases) is tuned against.** Warrant 58 of 60 with the model, 60 of 60 with the keyword splitter, LLM
+  alone 38 of 60, refund-everything 22 of 60. Warrant's two misses send a faulty return and a missing-item case to
+  review instead of paying ($95 owed, held for a person). Dev case 16's truth was changed to "review" after I saw a
+  result, because under the three-outcome model nobody can tell what was packed; it is marked in `eval/cases.py`.
+- **The model splitter missed the same kinds of wording as before.** On the separate 10-claim wording set, the model
+  found the right statement types on 9 of 10 and made 9 correct decisions; the keyword splitter found the types on
+  1 of 10 but still made 9 correct decisions (the reason on file covers it); the LLM alone made 7.
+- **The LLM-alone baseline is not repeatable.** At temperature 0 it gives different answers between runs. The saved
+  run is the only one reported for this version of the eval (one live run, no cherry-picking).
+- **Auto mode was run against the real PayPal sandbox once** (`proof_results/auto_sandbox_run.json`): three sure
+  cases ran, one hit a transient 503 from PayPal and was logged as a failed auto action, and a retry succeeded.
+  Auto mode has not been run against live money or a real merchant.
 - **The buyer is simulated.** Disputes are real sandbox disputes on real sandbox orders, but they are opened by
   Warrant's own seeding script through PayPal's sandbox chargeback simulator
   (`/v2/customer-support/process-chargeback`). That script stands in for the buyer's bank. PayPal-wallet disputes
@@ -117,7 +162,9 @@ PayPal takes a minute or two to list new disputes.
   the statements with their verdicts and evidence, the decision with its formulas, the PayPal calls made, and the
   status PayPal reported afterwards.
 - `proof_results/eval.json`, and `RESULTS.md` generated from it: the eval.
-- `proof_results/ui_case.png`, `ui_board.png`, `ui_phone.png`: the UI after the demo run, in a real browser.
+- `proof_results/auto_sandbox_run.json`: the activity log of an auto-mode pass against the sandbox.
+- `proof_results/ui_case.png`, `ui_policy.png`, `ui_board.png`, `ui_phone.png`: the UI in a real browser.
+- `proof_results/demo_run.json` predates the policy, review and auto work.
 
 ## License
 
