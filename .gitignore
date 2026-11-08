@@ -4,7 +4,8 @@ __pycache__/
 *.pyc
 node_modules/
 runs/
-data/
+data/*
+!data/policy.json
 .pytest_cache/
 TASK.md
 BUILD_NOTES.md

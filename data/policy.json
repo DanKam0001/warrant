@@ -1,0 +1,21 @@
+{
+  "jurisdiction": "AU",
+  "return_window_days": 30,
+  "final_sale_categories": [
+    "clearance"
+  ],
+  "final_sale_skus": [],
+  "restocking_fee_pct": 10.0,
+  "refund_without_fight_under": 10.0,
+  "cost": {
+    "dispute_fee": 20.0,
+    "handling_hours": 0.5,
+    "hourly_rate": 30.0
+  },
+  "auto": {
+    "enabled": false,
+    "max_refund": 100.0,
+    "daily_refund_cap": 300.0,
+    "max_fight_amount": 250.0
+  }
+}
