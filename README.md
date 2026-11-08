@@ -65,23 +65,36 @@ PayPal takes a minute or two to list new disputes.
 - Scripted demo: `.venv\Scripts\python.exe scripts\demo_run.py --reset`. It runs reset, analyse and respond on all
   four cases (one fought, one conceded, one injected claim ignored and fought, one cheap order refunded early), then
   writes `proof_results/demo_run.json`.
-- Eval: `.venv\Scripts\python.exe scripts\run_eval.py` regenerates `proof_results/eval.json` and `RESULTS.md`.
+- Eval: `.venv\Scripts\python.exe scripts\run_eval.py` regenerates `proof_results/eval.json` and `RESULTS.md`
+  (the 30 cases plus the 10 held-out claims in `eval/heldout.py`). Add `--report-only` to rebuild `RESULTS.md` from
+  the saved run without calling the model.
+- Screenshots: `.venv\Scripts\python.exe scripts\screenshot_ui.py` (Playwright driving the installed Edge, with the
+  app running; `pip install playwright` first, it is not in `requirements.txt`) saves `proof_results/ui_*.png`.
 - Tests: `.venv\Scripts\python.exe -m pytest -q` covers the checker, the decision rule, the injection cases and the
   PayPal response wiring against a fake PayPal.
 
 ## AI used
 
 - **Nemotron on Nebius Token Factory**: OpenAI-compatible chat call, temperature 0, no streaming. It only splits the
-  claim. The model is picked from the endpoint's model list, or set with `NEBIUS_MODEL`.
+  claim. The model is picked from the endpoint's model list, or set with `NEBIUS_MODEL`. The recorded runs used
+  `nvidia/nemotron-3-super-120b-a12b`. Token counts are saved in `proof_results/eval.json` and `demo_run.json`.
 - When the model cannot be reached, a keyword splitter takes its place. Every result says which one ran
   (`splitter: model` or `splitter: fallback`).
 - The "LLM decides alone" baseline in the eval gives the same model the claim and the evidence, and lets it choose.
 
 ## Honest limits
 
-- **The model did not run in the recorded results.** The Nebius endpoint refused connections every time it was tried
-  while these results were made. The saved demo run and eval used the keyword fallback splitter, and the LLM-alone
-  baseline was not run. `RESULTS.md` and the proof files say so. With the model up, rerun both scripts.
+- **On held-out wording, the LLM deciding alone did better than Warrant.** On 10 claims worded unlike the eval
+  cases, Warrant made 8 correct decisions with either splitter, and the LLM given all the evidence made 10. One of
+  Warrant's misses was a damage claim, which code cannot check. The other was "teapot's here, cups aren't": it was
+  read as "not received", and the parcel had been delivered. Neither was fixed, so the set stays held out. On the main
+  30 cases the LLM alone made 27 correct decisions to Warrant's 29. It paid $216 that was not owed, and it obeyed one
+  of the three injected claims. `RESULTS.md` has every case.
+- **The LLM-alone baseline is not repeatable.** At temperature 0 it still gave different answers between
+  runs. Only the saved run is reported, and an earlier run was not kept.
+- **The model and the keyword splitter made the same 30 decisions.** The model found statement types the keyword
+  splitter missed on 4 cases and on all 10 held-out claims, but the PayPal reason on file and the injection regex
+  covered those gaps. So the eval shows only a small benefit from the model.
 - **The buyer is simulated.** Disputes are real sandbox disputes on real sandbox orders, but they are opened by
   Warrant's own seeding script through PayPal's sandbox chargeback simulator
   (`/v2/customer-support/process-chargeback`). That script stands in for the buyer's bank. PayPal-wallet disputes
@@ -104,6 +117,7 @@ PayPal takes a minute or two to list new disputes.
   the statements with their verdicts and evidence, the decision with its formulas, the PayPal calls made, and the
   status PayPal reported afterwards.
 - `proof_results/eval.json`, and `RESULTS.md` generated from it: the eval.
+- `proof_results/ui_case.png`, `ui_board.png`, `ui_phone.png`: the UI after the demo run, in a real browser.
 
 ## License
 
