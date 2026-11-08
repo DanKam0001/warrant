@@ -131,6 +131,9 @@ class Warrant:
 
     def _add_case(self, d: dict, cap: str, intake: str = "polling"):
         with self.lock:
+            # Two overlapping syncs can both see the dispute as new; the second must not wipe the first's work.
+            if d["dispute_id"] in self.state["cases"]:
+                return
             self.state["cases"][d["dispute_id"]] = {
                 "dispute_id": d["dispute_id"],
                 "capture_id": cap,
@@ -232,7 +235,8 @@ class Warrant:
             case["paypal_state"] = after.get("dispute_state")
             case["stage"] = "answered" if response["answered"] else "waiting_on_paypal"
             self.save()
-        self.event(f"Responded to {dispute_id}: {dec['action']} -> " + ", ".join(f"{s['call']} {'ok' if s['ok'] else 'failed'}" for s in steps))
+        self.event(f"Responded to {dispute_id}: {dec['action']} -> " + (", ".join(f"{s['call']} {'ok' if s['ok'] else 'failed'}" for s in steps)
+                                                                         or "nothing sent: " + response["pending_note"]))
         return response
 
 
