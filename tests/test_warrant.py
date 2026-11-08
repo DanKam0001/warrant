@@ -5,6 +5,7 @@ import pytest
 from app.checker import check_statements
 from app.decision import decide
 from app.evidence import make_case_evidence, record_hash
+from app.paypal import PayPalError
 from app.scenarios import DEMO
 from app.service import Warrant, analyse_claim
 from app.splitter import ModelUnavailable, Splitter, code_flags_injection, fallback_split, sanitise
@@ -212,7 +213,15 @@ class FakePayPal:
 
     def refund(self, cap, amount, note):
         self.calls.append(("refund", amount))
+        if self.chargeback:
+            raise PayPalError(422, '{"details":[{"issue":"REFUND_NOT_PERMITTED_DUE_TO_CHARGEBACK"}]}', "/refund")
         return {"refund_id": "R-1", "status": "COMPLETED"}
+
+    def accept_claim(self, did, note, amount=None):
+        self.calls.append(("accept", amount))
+        return {}
+
+    chargeback = False
 
 
 def _warrant(tmp_path, key, links, claim):
@@ -239,3 +248,27 @@ def test_concede_refunds_through_payments_api(tmp_path):
     r = w.respond("PP-1")
     assert r["action"] == "concede"
     assert ("refund", "38.00") in pp.calls and pp.calls[-1][0] == "info"
+
+
+def _concede_case(tmp_path, links):
+    w, pp = _warrant(tmp_path, "concede", links, DEMO[1]["claim"])
+    w.state["cases"]["PP-1"]["reason"] = "MERCHANDISE_OR_SERVICE_NOT_AS_DESCRIBED"
+    return w, pp
+
+
+def test_concede_prefers_accept_claim(tmp_path):
+    w, pp = _concede_case(tmp_path, ["accept_claim", "provide_evidence"])
+    r = w.respond("PP-1")
+    assert r["answered"] and pp.calls == [("accept", None)]
+
+
+def test_refund_blocked_by_chargeback_is_not_retried(tmp_path):
+    w, pp = _concede_case(tmp_path, [])
+    pp.chargeback = True
+    r = w.respond("PP-1")
+    assert not r["answered"] and "accept-claim" in r["pending_note"]
+    assert w.state["cases"]["PP-1"]["stage"] == "waiting_on_paypal"
+    w.respond("PP-1")
+    assert [c[0] for c in pp.calls] == ["refund"]
+    pp.links = ["accept_claim"]
+    assert w.respond("PP-1")["answered"] and pp.calls[-1] == ("accept", None)

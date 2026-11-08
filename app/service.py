@@ -113,6 +113,17 @@ class Warrant:
                     c = self.state["cases"][did]
                     c["paypal_status"] = it.get("status")
                     c["paypal_state"] = it.get("dispute_state")
+        # The sandbox list endpoint can lag minutes behind; disputes our seeder opened are also fetched by id.
+        with self.lock:
+            pending = [(cap, o["opened_dispute"]) for cap, o in self.state["orders"].items()
+                       if o.get("opened_dispute") and o["opened_dispute"] not in self.state["cases"]]
+        for cap, did in pending:
+            try:
+                d = self.pp.show_dispute(did)
+            except PayPalError:
+                continue
+            self._add_case(d, cap, intake="lookup by id (sandbox list lagging)")
+            new += 1
         self.save()
         return new
 
@@ -183,17 +194,23 @@ class Warrant:
         else:
             amount = f"{dec['refund_amount']:.2f}"
             label = "Full refund" if dec["action"] == "concede" else "Partial refund"
-            if dec["action"] == "concede" and "accept_claim" in offered:
-                attempt("accept-claim", lambda: self.pp.accept_claim(dispute_id, f"{label}: {dec['summary']}"))
-            elif dec["action"] == "partial" and "make_offer" in offered:
+            # On a card chargeback PayPal blocks Payments refunds (422 REFUND_NOT_PERMITTED_DUE_TO_CHARGEBACK);
+            # accepting the claim is how the money goes back, once PayPal offers that action.
+            if dec["action"] == "partial" and "make_offer" in offered:
                 attempt("make-offer", lambda: self.pp.make_offer(dispute_id, amount, f"{label}: {dec['summary']}"))
-            if not any(s["ok"] for s in steps):
+            if not any(s["ok"] for s in steps) and "accept_claim" in offered:
+                part = amount if dec["action"] == "partial" else None
+                attempt("accept-claim", lambda: self.pp.accept_claim(dispute_id, f"{label}: {dec['summary']}", part))
+            if not any(s["ok"] for s in steps) and not case.get("refund_blocked"):
                 refund = attempt("refund", lambda: self.pp.refund(case["capture_id"], amount, f"{label} for {ev['purchase_record']['order_ref']}"))
                 if refund:
                     with self.lock:
                         ev["refunds"].append({"refund_id": refund["refund_id"], "amount": float(amount), "at": now()})
                     if "provide_supporting_info" in offered:
                         attempt("provide-supporting-info", lambda: self.pp.provide_supporting_info(dispute_id, f"{label} of ${amount} issued, PayPal refund id {refund['refund_id']}. {notes}"))
+                elif "REFUND_NOT_PERMITTED_DUE_TO_CHARGEBACK" in (steps[-1].get("error") or ""):
+                    with self.lock:
+                        case["refund_blocked"] = "chargeback"
         after = self.pp.show_dispute(dispute_id)
         response = {
             "at": now(),
@@ -203,8 +220,9 @@ class Warrant:
             "answered": any(s["ok"] for s in steps),
             "status_after": after.get("status"),
             "state_after": after.get("dispute_state"),
-            "pending_note": None if any(s["ok"] and s["call"] != "refund" for s in steps) or dec["action"] != "fight" else
-            "PayPal offered no response action yet; answer will be retried on next respond.",
+            "pending_note": None if any(s["ok"] for s in steps) else
+            ("Refund blocked by the chargeback; waiting for PayPal to offer accept-claim." if case.get("refund_blocked") else
+             "PayPal offered no response action yet; answer will be retried on next respond."),
         }
         with self.lock:
             case["response"] = response
