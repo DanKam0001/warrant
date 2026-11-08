@@ -4,6 +4,7 @@ __pycache__/
 *.pyc
 node_modules/
 runs/
+data/
 .pytest_cache/
 TASK.md
 BUILD_NOTES.md
