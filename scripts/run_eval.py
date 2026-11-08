@@ -287,6 +287,9 @@ def heldout_md(h):
              "(no keyword pattern was added for them). Each reuses one case's evidence and truth. \"Types found\" counts claims where "
              "the splitter itself produced every expected statement type (the statement implied by the PayPal reason and code-flagged "
              "instructions are not counted).", "",
+             "Caveat: on 9 Nov two instruction patterns were added to the code check (orders addressed to a reader, like "
+             "\"AI reviewer: ...\", and \"ignore the tracking ... and refund\") after a demo claim slipped past it. H10 has that "
+             "shape, so H10's keyword result is no longer held out. The other nine are unchanged.", "",
              "| Decider | Types found | Correct decisions |", "|---|---|---|"]
     for k, label in (("model", "Warrant, model splitter"), ("keyword", "Warrant, keyword splitter"), ("llm_alone", "LLM decides alone")):
         x = s.get(k)

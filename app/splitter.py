@@ -42,6 +42,12 @@ INJECTION_PATTERNS = [
     r"\bauto[- ]?approve\b",
     r"\bas an ai\b|\bAI (agent|reviewer|model)s?\b.*\b(must|should)\b",
     r"\bdisregard\b",
+    # addressed to a machine reader: "AI reviewer: ...", "Reviewer bot: ...", "Note to the model: ..."
+    r"\b(ai|bot|model|agent|reviewer|assistant|system)\b[\w ]{0,20}:\s*\S",
+    # "ignore the tracking / evidence ... and refund me" — an order, not "they ignored my emails" or
+    # "please ignore the tracking, it's wrong" (a buyer disputing the evidence, which the checker must still weigh)
+    r"\bignore (the|this|that|your|any|all)\b[\w ]{0,40}\b(tracking|evidence|record|records|proof|rules?|data|policy|scan)\b"
+    r".*\b(refund|approve|accept|close|mark|pay)\b",
 ]
 
 
