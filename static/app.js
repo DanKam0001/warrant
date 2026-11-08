@@ -24,12 +24,10 @@ function initQueue() {
   queueApi = agGrid.createGrid($("#queueGrid"), {
     columnDefs: [
       { field: "order", headerName: "Order", width: 90 },
-      { field: "reason", headerName: "Reason", flex: 1, minWidth: 130 },
-      { field: "amount", headerName: "Amount", width: 90, valueFormatter: (p) => money(p.value) },
-      { field: "stage", headerName: "Stage", width: 120, cellRenderer: (p) => `<span class="chip ${p.value}">${p.value.replaceAll("_", " ")}</span>` },
-      { field: "decision", headerName: "Warrant", width: 95, cellRenderer: (p) => (p.value ? `<span class="chip ${p.value}">${p.value}</span>` : "") },
-      { field: "dispute_id", headerName: "PayPal dispute", width: 165 },
-      { field: "paypal_status", headerName: "PayPal status", width: 130 },
+      { field: "reason", headerName: "Reason", flex: 1, minWidth: 110 },
+      { field: "amount", headerName: "Amount", width: 85, valueFormatter: (p) => money(p.value) },
+      { field: "stage", headerName: "Stage", width: 110, cellRenderer: (p) => `<span class="chip ${p.value}">${p.value.replaceAll("_", " ")}</span>` },
+      { field: "decision", headerName: "Warrant", width: 90, cellRenderer: (p) => (p.value ? `<span class="chip ${p.value}">${p.value}</span>` : "") },
     ],
     rowData: [],
     rowSelection: "single",
