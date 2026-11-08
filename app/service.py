@@ -72,7 +72,9 @@ class Warrant:
             rec = sc["record"]
             h = record_hash(rec)
             amount = f"{order_total(rec):.2f}"
-            o = self.pp.create_paid_order(amount, h, f"{rec['order_ref']} {rec['items'][0]['name']}", invoice_id=f"{rec['order_ref']}-{h[:8]}")
+            # PayPal rejects a reused invoice id, and every reset re-creates the same records.
+            invoice = f"{rec['order_ref']}-{h[:8]}-{dt.datetime.now(dt.timezone.utc):%Y%m%d%H%M%S}"
+            o = self.pp.create_paid_order(amount, h, f"{rec['order_ref']} {rec['items'][0]['name']}", invoice_id=invoice)
             ship = copy.deepcopy(sc["shipment"])
             tr = self.pp.add_tracking(o["order_id"], o["capture_id"], ship["carrier"], ship["tracking_number"])
             ship["paypal_tracker_id"] = tr.get("id")

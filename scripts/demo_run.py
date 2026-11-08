@@ -33,6 +33,8 @@ if args.reset:
         time.sleep(10)
         s = state()
         print(f"orders {len(s['orders'])} cases {len(s['cases'])}")
+        if (s.get("seeding") or {}).get("error"):
+            raise SystemExit("seeding failed: " + s["seeding"]["error"][:300])
         if s["orders"] and len(s["cases"]) >= len(s["orders"]) and (s.get("seeding") or {}).get("done"):
             break
         c.post("/api/sync")
