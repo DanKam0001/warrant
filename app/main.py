@@ -14,7 +14,8 @@ from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 
 ROOT = Path(__file__).resolve().parent.parent
-load_dotenv(ROOT / ".env")
+# .env wins over a stale empty variable left in the shell.
+load_dotenv(ROOT / ".env", override=True)
 
 from .paypal import PayPalError  # noqa: E402
 from .service import Warrant, analyse_claim  # noqa: E402

@@ -214,7 +214,7 @@ $("#resetBtn").addEventListener("click", async () => {
 function renderBoard() {
   const ev = state?.eval;
   if (!ev) { $("#kpis").innerHTML = `<div class="kpi">No eval results yet. Run <code>python scripts/run_eval.py</code>.</div>`; return; }
-  const s = ev.summary, names = { naive: "Refund-everything bot", llm_alone: "LLM decides alone", warrant: "Warrant" };
+  const s = ev.summary, names = { naive: "Refund-everything bot", llm_alone: "LLM decides alone", warrant_keyword: "Warrant, keyword splitter", warrant: "Warrant" };
   const kpi = (label, key, fmt, better) => `<div class="kpi"><div class="l">${label}</div><div class="v">${fmt(s.warrant[key])}</div>
     <div class="cmp">${Object.keys(names).filter((k) => k !== "warrant" && s[k]).map((k) => `${names[k]}: <b>${fmt(s[k][key])}</b>`).join("<br>")}</div></div>`;
   $("#kpis").innerHTML =
