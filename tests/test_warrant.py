@@ -250,6 +250,14 @@ def test_concede_refunds_through_payments_api(tmp_path):
     assert ("refund", "38.00") in pp.calls and pp.calls[-1][0] == "info"
 
 
+def test_missing_item_gets_partial_refund():
+    from eval.cases import CASES
+    c = next(x for x in CASES if x["id"] == 14)
+    a = analyse_claim(Splitter(FakeModel(ModelUnavailable("offline"))), c["claim"], c["evidence"], c["reason"], c["amount"])
+    assert not any(s["type"] == "not_as_described" for s in a["checked"])  # wrong_item already answers the reason
+    assert a["decision"]["action"] == "partial" and a["decision"]["refund_amount"] == 36.0
+
+
 def _concede_case(tmp_path, links):
     w, pp = _warrant(tmp_path, "concede", links, DEMO[1]["claim"])
     w.state["cases"]["PP-1"]["reason"] = "MERCHANDISE_OR_SERVICE_NOT_AS_DESCRIBED"

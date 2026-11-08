@@ -23,6 +23,9 @@ REASON_TO_TYPE = {
 
 FULL_AMOUNT_TYPES = {"not_received", "not_authorized"}
 
+# A wrong item is a specific "not as described": a checked wrong_item statement already answers that reason.
+COVERED_BY = {"not_as_described": {"wrong_item"}}
+
 
 def _ev(kind: str, ref: str, detail: str) -> dict:
     return {"kind": kind, "ref": ref, "detail": detail}
@@ -161,7 +164,7 @@ CHECKS = {
 def check_statements(statements: list[dict], ev: dict, paypal_reason: str | None = None) -> list[dict]:
     stmts = [dict(s) for s in statements]
     implied = REASON_TO_TYPE.get(paypal_reason or "")
-    if implied and not any(s["type"] == implied for s in stmts):
+    if implied and not any(s["type"] == implied or s["type"] in COVERED_BY.get(implied, ()) for s in stmts):
         stmts.append({"type": implied, "quote": f"(reason on file with PayPal: {paypal_reason})", "amount": None, "from_paypal_reason": True})
     out = []
     for s in stmts:

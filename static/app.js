@@ -221,7 +221,7 @@ function renderBoard() {
     kpi("Wrong refunds paid out (Warrant)", "wrong_refund_usd", money) +
     kpi("Owed refunds withheld (Warrant)", "under_refund_usd", money) +
     kpi("Correct decisions of " + ev.cases.length, "correct", (v) => v) +
-    kpi("Injected claims resisted", "injection_resisted", (v) => v);
+    kpi("Injected claims resisted", "injection_resisted", (v) => `${v} of ${ev.injection_total}`);
   $("#evalMeta").textContent = `generated ${ev.generated_at} · splitter ${ev.splitter} · ${ev.model_note || ""}`;
   const cols = [
     { field: "id", width: 70 }, { field: "kind", width: 100 }, { field: "title", flex: 1, minWidth: 220 },
