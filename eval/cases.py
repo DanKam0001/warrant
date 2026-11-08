@@ -38,7 +38,8 @@ def ship(skus, scans, tracking="1Z999AA10000000001", carrier="UPS"):
 
 
 def case(n, kind, title, reason, claim, items, shipment, truth, why, postcode="94110", approval=LOGIN, category="kitchen",
-         shipping_fee=0.0, captured=None, disputed=None, tamper=False, other_charges=None, returns=None, refunds=None):
+         shipping_fee=0.0, captured=None, disputed=None, tamper=False, other_charges=None, returns=None, refunds=None,
+         cid=None, condition=None, opened="2026-11-05", injection=False, benign_request=False):
     rec = _record(f"EV-{n:03d}", {"name": "Buyer", "email": f"buyer{n}@example.com"}, items, postcode, approval, category, shipping_fee)
     h = record_hash(rec)
     total = order_total(rec)
@@ -47,13 +48,19 @@ def case(n, kind, title, reason, claim, items, shipment, truth, why, postcode="9
     if tamper:
         rec = {**rec, "approval": {**rec["approval"], "at": "2026-10-20T10:05:00Z"}}  # edited after PayPal got the hash
     ev = make_case_evidence(rec, shipment, paypal=paypal, other_charges=other_charges, returns=returns, refunds=refunds)
+    ev["dispute_opened_at"] = opened  # the date the dispute was filed, used for return-window arithmetic
+    if condition:
+        ev["condition"] = condition  # {"buyer_photo": damage_visible|none, "outbound_photo": intact|none}
     return {
-        "id": n, "kind": kind, "title": title, "reason": REASON[reason], "claim": claim, "evidence": ev,
+        "id": cid or n, "kind": kind, "injection": injection or kind.startswith("injection"), "benign_request": benign_request, "title": title, "reason": REASON[reason], "claim": claim, "evidence": ev,
         "amount": round(disputed if disputed is not None else cap, 2), "truth": truth, "why": why,
     }
 
 
 T_FIGHT = {"action": "fight", "refund": 0.0}
+
+
+REVIEW = {"action": "review", "refund": 0.0}
 
 
 def concede(x):
