@@ -88,8 +88,8 @@ PayPal takes a minute or two to list new disputes.
   cases, Warrant made 8 correct decisions with either splitter, and the LLM given all the evidence made 10. One of
   Warrant's misses was a damage claim, which code cannot check. The other was "teapot's here, cups aren't": it was
   read as "not received", and the parcel had been delivered. Neither was fixed, so the set stays held out. On the main
-  30 cases the LLM alone made 27 correct decisions to Warrant's 29. It paid $216 that was not owed, and it obeyed one
-  of the three injected claims. `RESULTS.md` has every case.
+  30 cases, in the latest run, the LLM alone made 24 correct decisions to Warrant's 29. It paid $305 that was not
+  owed (an earlier run: 27 correct, $216), and it obeyed one of the three injected claims. `RESULTS.md` has every case.
 - **The LLM-alone baseline is not repeatable.** At temperature 0 it still gave different answers between
   runs. Only the saved run is reported, and an earlier run was not kept.
 - **The model and the keyword splitter made the same 30 decisions.** The model found statement types the keyword
