@@ -18,9 +18,14 @@
   </div>
   <nav>
     <button class="tab active" data-tab="queue">Dispute queue</button>
+    <button class="tab" data-tab="policy">Policy</button>
     <button class="tab" data-tab="board">Results board</button>
   </nav>
   <div class="status">
+    <label class="auto" title="Off by default. When on, only sure decisions run without a click; REVIEW and over-limit cases stay in the queue.">
+      <input type="checkbox" id="autoToggle"><span class="sw"></span><span id="autoLabel">Auto mode: off</span>
+    </label>
+    <button id="killBtn" class="kill" title="Turn auto mode off now" hidden>Kill switch</button>
     <span id="modelStatus" class="pill">model: …</span>
     <span id="intakeStatus" class="pill">intake: polling PayPal</span>
     <button id="resetBtn" class="ghost" title="Wipe local cases, create fresh sandbox orders and disputes">Reset demo</button>
@@ -29,9 +34,14 @@
 
 <main>
   <section id="queue" class="view active">
+    <div class="panel strip">
+      <div class="strip-head"><h2>Status</h2><span id="stripTotal" class="muted"></span><span id="autoNote" class="muted"></span></div>
+      <div id="chips" class="chips"></div>
+    </div>
     <div class="queue-wrap">
       <div class="panel">
         <div class="panel-head"><h2>Dispute queue</h2><span id="seedNote" class="muted"></span></div>
+        <input id="search" class="search" type="search" placeholder="Search order, reason, last action">
         <div id="queueGrid" class="ag-theme-quartz grid"></div>
       </div>
       <div class="panel" id="casePanel">
@@ -53,6 +63,17 @@
             </div>
           </div>
 
+          <div id="reviewBox" class="review-box" hidden>
+            <h3>Needs you <span class="tag warn">review</span></h3>
+            <p id="reviewWhy" class="small"></p>
+            <div class="review-actions">
+              <button data-act="concede">Refund in full</button>
+              <span class="partial"><input id="partialAmt" type="number" min="0" step="0.01"><button data-act="partial">Partial refund</button></span>
+              <button data-act="fight">Fight: send evidence to PayPal</button>
+            </div>
+            <p class="small muted">Fight means submitting evidence to PayPal, which decides. The buyer keeps PayPal Buyer Protection.</p>
+          </div>
+
           <div class="claim-box">
             <div class="eyebrow">Buyer's claim, as received from PayPal <span class="tag warn">untrusted text</span></div>
             <blockquote id="cClaim"></blockquote>
@@ -63,6 +84,7 @@
             <span><i class="dot red"></i>Holds: we are at fault</span>
             <span><i class="dot amber"></i>Can't be checked in code</span>
             <span><i class="dot grey"></i>Instruction in claim: ignored</span>
+            <span><i class="dot blue"></i>Request: noted, never changes the decision</span>
             <span class="muted" id="splitSource"></span>
           </div>
 
@@ -76,6 +98,7 @@
             <div class="card" id="costCard" hidden>
               <h3>Decision: <span id="decAction"></span></h3>
               <p id="decSummary"></p>
+              <div id="trace" class="trace"></div>
               <table class="cost"><thead><tr><th>Option</th><th>Expected cost</th><th>How</th></tr></thead><tbody id="costRows"></tbody></table>
               <p class="muted small" id="costParams"></p>
             </div>
@@ -83,6 +106,8 @@
               <h3>PayPal</h3>
               <dl id="ppInfo"></dl>
               <div id="ppSteps"></div>
+              <h3 class="mt">History of this order</h3>
+              <ol id="orderLog" class="orderlog"></ol>
             </div>
           </div>
 
@@ -101,10 +126,43 @@
     </div>
   </section>
 
+  <section id="policy" class="view">
+    <div class="panel policy-panel">
+      <h2>Merchant policy</h2>
+      <p class="floorbox"><b>Consumer-protection floor (checked first, a policy can never override it).</b> <span id="floorDisc"></span></p>
+      <ul id="floorList" class="floorlist"></ul>
+      <p class="fightnote" id="fightNote"></p>
+      <form id="policyForm" class="pform" autocomplete="off">
+        <label>Jurisdiction <select name="jurisdiction" id="pJur"></select></label>
+        <label>Return window (days) <input name="return_window_days" type="number" min="0" max="365"></label>
+        <label>Restocking fee on change-of-mind returns (%) <input name="restocking_fee_pct" type="number" min="0" max="100" step="0.5"></label>
+        <label>Refund without a fight at or under ($) <input name="refund_without_fight_under" type="number" min="0" step="1"></label>
+        <label>Final-sale categories <input name="final_sale_categories" placeholder="comma separated, e.g. clearance, seconds"></label>
+        <label>Final-sale SKUs <input name="final_sale_skus" placeholder="comma separated"></label>
+        <fieldset><legend>Cost of a fight</legend>
+          <label>PayPal dispute fee ($) <input name="cost.dispute_fee" type="number" min="0" step="1"></label>
+          <label>Handling hours <input name="cost.handling_hours" type="number" min="0" step="0.25"></label>
+          <label>Hourly rate ($) <input name="cost.hourly_rate" type="number" min="0" step="1"></label>
+        </fieldset>
+        <fieldset><legend>Auto mode limits (the on/off switch is in the header)</legend>
+          <label>Largest refund auto mode may send ($) <input name="auto.max_refund" type="number" min="0" step="1"></label>
+          <label>Daily auto refund cap ($) <input name="auto.daily_refund_cap" type="number" min="0" step="1"></label>
+          <label>Largest dispute auto mode may fight ($) <input name="auto.max_fight_amount" type="number" min="0" step="1"></label>
+        </fieldset>
+        <div class="pform-actions"><button class="primary" type="submit">Save policy</button><span id="policyNote" class="muted"></span></div>
+      </form>
+      <p class="muted small">Saving re-checks every open dispute against the new policy. Every rule that fires is shown under the decision.</p>
+    </div>
+    <div class="panel">
+      <div class="panel-head"><h2>Activity log</h2><span class="muted small">append-only, newest first (data/activity.jsonl)</span></div>
+      <ol id="allLog" class="orderlog long"></ol>
+    </div>
+  </section>
+
   <section id="board" class="view">
     <div class="kpis" id="kpis"></div>
     <div class="panel">
-      <div class="panel-head"><h2>30 eval cases</h2><span class="muted" id="evalMeta"></span></div>
+      <div class="panel-head"><h2 id="boardTitle">Eval cases</h2><span class="seg" id="setSeg"></span><span class="muted" id="evalMeta"></span></div>
       <div id="boardGrid" class="ag-theme-quartz grid tall"></div>
     </div>
   </section>

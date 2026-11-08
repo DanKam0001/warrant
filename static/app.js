@@ -1,10 +1,21 @@
 const $ = (s) => document.querySelector(s);
 const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 const money = (v) => (v == null ? "–" : "$" + Number(v).toFixed(2));
-const COLOR = { false: "green", true: "red", unverifiable: "amber", ignored: "grey" };
-const VERDICT = { false: "Contradicted", true: "Holds", unverifiable: "Unverifiable", ignored: "Ignored" };
+const COLOR = { false: "green", true: "red", unverifiable: "amber", ignored: "grey", noted: "blue" };
+const VERDICT = { false: "Contradicted", true: "Holds", unverifiable: "Unverifiable", ignored: "Ignored", noted: "Request noted" };
+const ACTION_LABEL = { concede: "refund in full", partial: "partial refund", fight: "fight", review: "needs you" };
 
-let state = null, current = null, queueApi = null, boardApi = null, animating = false;
+let state = null, current = null, queueApi = null, boardApi = null, animating = false, statusFilter = null, searchText = "", policyDirty = false, boardSet = "heldout2";
+
+function ago(iso) {
+  if (!iso) return "";
+  const sec = Math.max(0, (Date.now() - new Date(iso).getTime()) / 1000);
+  if (sec < 60) return "just now";
+  if (sec < 3600) return Math.floor(sec / 60) + " min ago";
+  if (sec < 86400) return Math.floor(sec / 3600) + " h ago";
+  return Math.floor(sec / 86400) + " d ago";
+}
+const ACTION_WORD = { concede: "Refunded", partial: "Partly refunded", fight: "Evidence sent", waiting_on_paypal: "Waiting on PayPal", analysed: "Checked", auto_skipped: "Auto left it", auto_failed: "Auto failed", policy_changed: "Policy changed", auto_on: "Auto on", auto_off: "Auto off", kill_switch: "Kill switch" };
 
 async function api(path, opts = {}) {
   const r = await fetch(path, { method: opts.method || "GET", headers: { "Content-Type": "application/json" }, body: opts.body ? JSON.stringify(opts.body) : undefined });
@@ -17,18 +28,25 @@ document.querySelectorAll(".tab").forEach((b) => b.addEventListener("click", () 
   document.querySelectorAll(".tab").forEach((x) => x.classList.toggle("active", x === b));
   document.querySelectorAll(".view").forEach((v) => v.classList.toggle("active", v.id === b.dataset.tab));
   if (b.dataset.tab === "board") renderBoard();
+  if (b.dataset.tab === "policy") { renderPolicy(true); loadAllLog(); }
 }));
 
 // ---- queue ------------------------------------------------------------------------------------------------------
 function initQueue() {
   queueApi = agGrid.createGrid($("#queueGrid"), {
     columnDefs: [
-      { field: "order", headerName: "Order", width: 90 },
-      { field: "reason", headerName: "Reason", flex: 1, minWidth: 110 },
-      { field: "amount", headerName: "Amount", width: 85, valueFormatter: (p) => money(p.value) },
-      { field: "stage", headerName: "Stage", width: 110, cellRenderer: (p) => `<span class="chip ${p.value}">${p.value.replaceAll("_", " ")}</span>` },
-      { field: "decision", headerName: "Warrant", width: 90, cellRenderer: (p) => (p.value ? `<span class="chip ${p.value}">${p.value}</span>` : "") },
+      { field: "status_rank", headerName: "Status", width: 125, sort: "asc", sortIndex: 0, cellRenderer: (p) => `<span class="chip s-${p.data.status}">${esc(p.data.status_label)}</span>${p.data.auto_handled ? ' <span class="chip auto">auto</span>' : ""}` },
+      { field: "order", headerName: "Order", width: 88 },
+      { field: "amount", headerName: "Amount", width: 78, valueFormatter: (p) => money(p.value) },
+      { field: "decision", headerName: "Warrant", width: 80, cellRenderer: (p) => (p.value ? `<span class="chip ${p.value}">${p.value === "review" ? "review" : p.value}</span>` : "") },
+      { field: "last_at", headerName: "Last action", flex: 1, minWidth: 130, sort: "desc", sortIndex: 1, cellRenderer: (p) => (p.data.last_text ? `${esc(p.data.last_text)} <span class="muted">${esc(ago(p.value))}</span>` : '<span class="muted">none yet</span>') },
     ],
+    isExternalFilterPresent: () => !!statusFilter || !!searchText,
+    doesExternalFilterPass: (node) => {
+      const d = node.data;
+      if (statusFilter === "auto" ? !d.auto_handled : statusFilter && d.status !== statusFilter) return false;
+      return !searchText || `${d.order} ${d.reason} ${d.last_text} ${d.status_label}`.toLowerCase().includes(searchText);
+    },
     rowData: [],
     rowSelection: "single",
     getRowId: (p) => p.data.dispute_id,
@@ -40,16 +58,96 @@ function initQueue() {
 function queueRows() {
   return state.cases.map((c) => {
     const o = state.orders[c.capture_id] || {};
+    const la = c.last_action;
     return {
       dispute_id: c.dispute_id, order: o.evidence?.purchase_record?.order_ref, reason: (c.reason || "").replace("MERCHANDISE_OR_SERVICE_", "").replaceAll("_", " ").toLowerCase(),
       amount: c.amount, stage: c.stage, decision: c.analysis?.decision?.action, paypal_status: c.paypal_status,
+      status: c.status, status_label: c.status_label, status_rank: c.status_rank, auto_handled: c.auto_handled,
+      last_text: la ? (ACTION_WORD[la.action] || la.action) + (la.by === "auto" ? " (auto)" : "") : "", last_at: la?.at ? la.at + "Z" : "",
     };
   });
 }
 
+function renderStrip() {
+  const s = state.summary;
+  const chip = (key, label, count, usd, extra = "") => `<button class="schip ${statusFilter === key ? "on" : ""} ${extra}" data-s="${key ?? ""}"><span class="n">${count}</span><span class="l">${esc(label)}</span><span class="u">${money(usd)}</span></button>`;
+  $("#chips").innerHTML = chip(null, "All", s.total, s.total_usd) +
+    s.statuses.filter((x) => x.count || x.key === "needs_review").map((x) => chip(x.key, x.label, x.count, x.usd, "s-" + x.key + (x.key === "needs_review" && x.count ? " hot" : ""))).join("") +
+    chip("auto", "Handled by auto", s.auto_handled.count, s.auto_handled.usd, "auto");
+  $("#chips").querySelectorAll(".schip").forEach((b) => b.addEventListener("click", () => { statusFilter = b.dataset.s || null; renderStrip(); queueApi.onFilterChanged(); }));
+  $("#stripTotal").textContent = `${s.total} dispute${s.total === 1 ? "" : "s"}, ${money(s.total_usd)} in total`;
+}
+
+function renderAuto() {
+  const a = state.auto;
+  $("#autoToggle").checked = a.enabled;
+  $("#autoLabel").textContent = a.enabled ? "Auto mode: ON" : "Auto mode: off";
+  document.querySelector(".auto").classList.toggle("on", a.enabled);
+  $("#killBtn").hidden = !a.enabled;
+  $("#autoNote").textContent = a.enabled ? `Auto limits: refund up to ${money(a.limits.max_refund)}, ${money(a.spent_today)} of ${money(a.limits.daily_refund_cap)} spent today, fights up to ${money(a.limits.max_fight_amount)}.` : a.killed_at ? "Auto mode was stopped by the kill switch." : "";
+}
+
+function renderPolicy(force) {
+  const pp = state.policy, f = $("#policyForm");
+  if (!force && policyDirty) return;
+  $("#floorDisc").textContent = pp.disclaimer;
+  $("#floorList").innerHTML = pp.principles.map((x) => `<li><b>${esc(x.id)}</b> ${esc(x.text)}</li>`).join("");
+  $("#fightNote").textContent = pp.fight_note;
+  $("#pJur").innerHTML = Object.entries(pp.jurisdictions).map(([k, v]) => `<option value="${k}">${k}: ${esc(v)}</option>`).join("");
+  const p = pp.policy;
+  const get = (n) => n.split(".").reduce((o, k) => o[k], p);
+  f.querySelectorAll("[name]").forEach((el) => { const v = get(el.name); el.value = Array.isArray(v) ? v.join(", ") : v; });
+  policyDirty = false;
+}
+
+function readPolicy() {
+  const f = $("#policyForm"), out = { cost: {}, auto: {} };
+  f.querySelectorAll("[name]").forEach((el) => {
+    const n = el.name;
+    const v = el.type === "number" ? Number(el.value) : n.startsWith("final_sale") ? el.value.split(",").map((x) => x.trim()).filter(Boolean) : el.value;
+    const [a, b] = n.split(".");
+    if (b) out[a][b] = v; else out[a] = v;
+  });
+  return out;
+}
+
+$("#policyForm").addEventListener("input", () => { policyDirty = true; $("#policyNote").textContent = "unsaved changes"; });
+$("#policyForm").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  try {
+    await api("/api/policy", { method: "PUT", body: readPolicy() });
+    policyDirty = false;
+    await refresh();
+    renderPolicy(true);
+    $("#policyNote").textContent = "saved; open disputes re-checked";
+    loadAllLog();
+  } catch (err) { $("#policyNote").textContent = "not saved: " + err.message; }
+});
+
+const logLine = (withOrder) => (r) => `<li><span class="t">${esc(r.at.slice(5, 16).replace("T", " "))}</span><span class="by ${esc(r.by)}">${esc(r.by)}</span>${withOrder && r.order ? `<b>${esc(r.order)}</b> ` : ""}${esc(r.reason)}</li>`;
+async function loadAllLog() {
+  const { activity } = await api("/api/activity?limit=80");
+  $("#allLog").innerHTML = activity.map(logLine(true)).join("") || '<li class="muted">Nothing yet.</li>';
+}
+async function loadOrderLog(id) {
+  const { activity } = await api("/api/activity?dispute_id=" + encodeURIComponent(id) + "&limit=30");
+  if (id !== current) return;
+  $("#orderLog").innerHTML = activity.map(logLine(false)).join("") || '<li class="muted">Nothing done yet.</li>';
+}
+
+$("#autoToggle").addEventListener("change", async (e) => {
+  try { await api("/api/auto", { method: "POST", body: { enabled: e.target.checked } }); } catch (err) { alert(err.message); }
+  refresh();
+});
+$("#killBtn").addEventListener("click", async () => { await api("/api/auto/kill", { method: "POST" }); refresh(); });
+$("#search").addEventListener("input", (e) => { searchText = e.target.value.trim().toLowerCase(); queueApi.onFilterChanged(); });
+
 async function refresh() {
   state = await api("/api/state");
   queueApi.setGridOption("rowData", queueRows());
+  renderStrip();
+  renderAuto();
+  if (!policyDirty) renderPolicy(false);
   const m = state.model;
   const ms = $("#modelStatus");
   const usedFallback = state.cases.some((c) => c.analysis?.split?.source === "fallback");
@@ -89,8 +187,16 @@ function renderCase(animate) {
   $("#cTitle").textContent = `${money(c.amount)} · ${(c.reason || "").replaceAll("_", " ").toLowerCase()}`;
   $("#cIds").innerHTML = `dispute ${esc(c.dispute_id)} · order ${esc(ev.paypal.order_id)} · capture ${esc(ev.paypal.capture_id)} · intake: ${esc(c.intake)}`;
   $("#cClaim").innerHTML = highlightClaim(c.claim, a?.checked);
-  $("#respondBtn").disabled = !a || c.stage === "answered";
-  $("#respondBtn").textContent = c.stage === "answered" ? "Answered" : a?.decision?.action === "fight" ? "Send evidence to PayPal" : a ? "Refund via PayPal" : "Send answer to PayPal";
+  const review = a?.decision?.action === "review" && c.stage !== "answered";
+  $("#respondBtn").disabled = !a || c.stage === "answered" || review;
+  $("#respondBtn").textContent = c.stage === "answered" ? "Answered" : review ? "Decide below" : a?.decision?.action === "fight" ? "Send evidence to PayPal" : a ? (a.decision.action === "partial" ? "Partial refund via PayPal" : "Refund via PayPal") : "Send answer to PayPal";
+  $("#reviewBox").hidden = !review || animating;
+  if (review) {
+    $("#reviewWhy").textContent = (a.decision.review_reasons || []).join("; ") + ". " + a.decision.summary;
+    if ($("#partialAmt").dataset.d !== c.dispute_id) { $("#partialAmt").value = (a.decision.proposed_refund || 0).toFixed(2); $("#partialAmt").dataset.d = c.dispute_id; }
+    $("#partialAmt").max = c.amount;
+  }
+  loadOrderLog(c.dispute_id);
   $("#splitSource").textContent = a ? (a.split.source === "model" ? `split by ${a.split.model}` : `split by keyword fallback (model unavailable: ${a.split.error?.slice(0, 60)})`) : "";
   renderStatements(a, ev, animate);
   renderDecision(a);
@@ -120,7 +226,7 @@ function renderStatements(a, ev, animate) {
   }
   $("#stmts").innerHTML = a.checked.map((c, i) => `<div class="stmt ${animate ? "pending" : COLOR[c.verdict]}" data-i="${i}">
       <span class="verdict">${animate ? "checking…" : VERDICT[c.verdict]}</span>
-      <div class="type">${esc(c.type.replaceAll("_", " "))}${c.flagged_by === "code" ? " · flagged by code" : ""}</div>
+      <div class="type">${esc(c.type.replaceAll("_", " "))}${c.flagged_by === "code" ? " · flagged by code" : ""}${c.type === "request" && c.remedy ? " · " + esc(c.remedy.replaceAll("_", " ")) : ""}</div>
       <div class="q">“${esc(c.quote)}”</div>
       <div class="why">${animate ? "" : esc(c.reason)}</div></div>`).join("");
   if (!animate) { drawLinks(links); return; }
@@ -153,10 +259,12 @@ function renderDecision(a) {
   $("#costCard").hidden = !a || animating;
   if (!a) return;
   const d = a.decision;
-  $("#decAction").textContent = d.action === "concede" ? "refund in full" : d.action === "partial" ? "partial refund" : "fight";
+  $("#decAction").textContent = ACTION_LABEL[d.action] || d.action;
+  const layerName = { floor: "consumer-protection floor", policy: "merchant policy", evidence: "evidence" };
+  $("#trace").innerHTML = (d.trace || []).map((t) => `<div class="tr ${esc(t.layer)}"><span class="lay">${esc(layerName[t.layer] || t.layer)}</span><span class="rule">${esc(t.rule)}</span> ${esc(t.text)} <span class="muted">→ ${esc(t.effect)}</span></div>`).join("");
   $("#decAction").className = "act-" + d.action;
   $("#decSummary").textContent = d.summary;
-  $("#costRows").innerHTML = d.options.map((o) => `<tr class="${o.action === d.action ? "chosen" : ""}"><td>${o.action}${o.refund ? " (" + money(o.refund) + ")" : ""}</td><td>${money(o.cost)}</td><td class="f">${esc(o.formula)}</td></tr>`).join("");
+  $("#costRows").innerHTML = d.options.map((o) => `<tr class="${o.action === d.action ? "chosen" : ""}"><td>${o.action}${o.refund ? " (" + money(o.refund) + ")" : ""}${o.blocked ? ' <span class="tag warn">blocked by policy</span>' : ""}</td><td>${money(o.cost)}</td><td class="f">${esc(o.formula)}</td></tr>`).join("");
   const p = d.params;
   $("#costParams").textContent = `Merchant settings: dispute fee ${money(p.dispute_fee)}, ${p.handling_hours} h handling at ${money(p.hourly_rate)}/h. P(lose) by weakest evidence: strong ${p.p_lose.strong}, medium ${p.p_lose.medium}, weak/unverifiable ${p.p_lose.weak}, claim holds ${p.p_lose.true}.`;
 }
@@ -191,6 +299,15 @@ $("#respondBtn").addEventListener("click", async () => {
   await refresh();
 });
 
+$("#reviewBox").querySelectorAll("button[data-act]").forEach((b) => b.addEventListener("click", async () => {
+  const act = b.dataset.act, body = { action: act };
+  if (act === "partial") body.refund = Number($("#partialAmt").value);
+  const c = caseObj();
+  if (!confirm(`${act === "fight" ? "Send the evidence to PayPal" : act === "concede" ? "Refund " + money(c.amount) : "Refund " + money(body.refund)} for this dispute?`)) return;
+  try { await api(`/api/cases/${current}/respond`, { method: "POST", body }); } catch (e) { alert(e.message); }
+  await refresh();
+}));
+
 $("#tryBtn").addEventListener("click", async () => {
   const c = caseObj();
   $("#tryOut").innerHTML = "<span class='muted'>checking…</span>";
@@ -209,29 +326,37 @@ $("#resetBtn").addEventListener("click", async () => {
 });
 
 // ---- results board ----------------------------------------------------------------------------------------------
+const BOT_NAMES = { naive: "Refund-everything bot", llm_alone: "LLM decides alone", warrant_keyword: "Warrant, keyword splitter", warrant: "Warrant" };
+const SETS = { heldout2: "Held-out set 2 (clean)", dev: "Dev set (tuned against)" };
+
 function renderBoard() {
   const ev = state?.eval;
-  if (!ev) { $("#kpis").innerHTML = `<div class="kpi">No eval results yet. Run <code>python scripts/run_eval.py</code>.</div>`; return; }
-  const s = ev.summary, names = { naive: "Refund-everything bot", llm_alone: "LLM decides alone", warrant_keyword: "Warrant, keyword splitter", warrant: "Warrant" };
-  const kpi = (label, key, fmt, better) => `<div class="kpi"><div class="l">${label}</div><div class="v">${fmt(s.warrant[key])}</div>
-    <div class="cmp">${Object.keys(names).filter((k) => k !== "warrant" && s[k]).map((k) => `${names[k]}: <b>${fmt(s[k][key])}</b>`).join("<br>")}</div></div>`;
+  if (!ev || !ev[boardSet]) { $("#kpis").innerHTML = `<div class="kpi">No eval results yet. Run <code>python scripts/run_eval.py</code>.</div>`; return; }
+  const set = ev[boardSet], s = set.summary, n = set.total;
+  $("#setSeg").innerHTML = Object.entries(SETS).map(([k, v]) => `<button class="${k === boardSet ? "on" : ""}" data-k="${k}">${v}</button>`).join("");
+  $("#setSeg").querySelectorAll("button").forEach((b) => b.addEventListener("click", () => { boardSet = b.dataset.k; renderBoard(); }));
+  $("#boardTitle").textContent = `${n} eval cases`;
+  const others = (key, fmt) => Object.keys(BOT_NAMES).filter((k) => k !== "warrant" && s[k]).map((k) => `${BOT_NAMES[k]}: <b>${fmt(s[k][key], s[k])}</b>`).join("<br>");
+  const kpi = (label, key, fmt) => `<div class="kpi"><div class="l">${label}</div><div class="v">${fmt(s.warrant[key], s.warrant)}</div><div class="cmp">${others(key, fmt)}</div></div>`;
   $("#kpis").innerHTML =
     kpi("Wrong refunds paid out (Warrant)", "wrong_refund_usd", money) +
-    kpi("Owed refunds withheld (Warrant)", "under_refund_usd", money) +
-    kpi("Correct decisions of " + ev.cases.length, "correct", (v) => v) +
-    kpi("Injected claims resisted", "injection_resisted", (v) => `${v} of ${ev.injection_total}`);
+    kpi("Owed refunds withheld (Warrant)", "owed_withheld_usd", money) +
+    kpi("Correct decisions of " + n, "correct", (v) => v) +
+    kpi("Sent to a person", "review_sent", (v, x) => `${v} (${x.review_expected} needed one)`) +
+    kpi("Injected claims resisted", "injection_resisted", (v, x) => `${v} of ${x.injection_total}`) +
+    kpi("Polite requests wrongly flagged", "benign_wrongly_flagged", (v, x) => (v == null ? "n/a" : `${v} of ${x.benign_total}`));
   $("#evalMeta").textContent = `generated ${ev.generated_at} · splitter ${ev.splitter} · ${ev.model_note || ""}`;
   const cols = [
-    { field: "id", width: 70 }, { field: "kind", width: 100 }, { field: "title", flex: 1, minWidth: 220 },
+    { field: "id", width: 70 }, { field: "kind", width: 130 }, { field: "title", flex: 1, minWidth: 220 },
     { field: "amount", width: 90, valueFormatter: (p) => money(p.value) },
     { headerName: "Truth", valueGetter: (p) => `${p.data.truth.action}${p.data.truth.refund ? " " + money(p.data.truth.refund) : ""}`, width: 130 },
   ];
-  for (const k of Object.keys(names)) {
-    if (!ev.cases[0][k]) continue;
-    cols.push({ headerName: names[k], width: 170, valueGetter: (p) => p.data[k], cellRenderer: (p) => p.value ? `<span class="chip ${p.value.action}">${p.value.action}</span> ${p.value.refund ? money(p.value.refund) : ""} ${p.value.correct ? "✓" : "✗"}` : "" });
+  for (const k of Object.keys(BOT_NAMES)) {
+    if (!set.cases[0][k]) continue;
+    cols.push({ headerName: BOT_NAMES[k], width: 175, valueGetter: (p) => p.data[k], cellRenderer: (p) => p.value ? `<span class="chip ${p.value.action}">${p.value.action}</span> ${p.value.refund ? money(p.value.refund) : ""} ${p.value.correct ? "✓" : "✗"}` : "" });
   }
-  if (boardApi) boardApi.setGridOption("columnDefs", cols), boardApi.setGridOption("rowData", ev.cases);
-  else boardApi = agGrid.createGrid($("#boardGrid"), { columnDefs: cols, rowData: ev.cases, defaultColDef: { resizable: true, sortable: true, filter: true } });
+  if (boardApi) { boardApi.setGridOption("columnDefs", cols); boardApi.setGridOption("rowData", set.cases); }
+  else boardApi = agGrid.createGrid($("#boardGrid"), { columnDefs: cols, rowData: set.cases, defaultColDef: { resizable: true, sortable: true, filter: true } });
 }
 
 initQueue();
