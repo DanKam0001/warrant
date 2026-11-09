@@ -1,0 +1,298 @@
+{
+ "labelled_by": "the builder, by hand, once, after writing eval/real/LABELLING_GUIDE.md",
+ "kinds": {
+  "3348556": [
+   "other"
+  ],
+  "5079955": [
+   "refund_not_given"
+  ],
+  "3737262": [
+   "not_received"
+  ],
+  "6100291": [
+   "unauthorised"
+  ],
+  "4552115": [
+   "not_as_described",
+   "refund_not_given"
+  ],
+  "3342526": [
+   "refund_not_given"
+  ],
+  "2533253": [
+   "unauthorised"
+  ],
+  "4873341": [
+   "not_received"
+  ],
+  "8125264": [
+   "amount_wrong"
+  ],
+  "2987468": [
+   "unauthorised"
+  ],
+  "5107180": [
+   "refund_not_given"
+  ],
+  "4163316": [
+   "other"
+  ],
+  "7753985": [
+   "refund_not_given",
+   "not_as_described"
+  ],
+  "3858034": [
+   "not_received",
+   "refund_not_given"
+  ],
+  "7780276": [
+   "other"
+  ],
+  "3250341": [
+   "amount_wrong"
+  ],
+  "4147111": [
+   "unauthorised"
+  ],
+  "4549982": [
+   "other"
+  ],
+  "4363129": [
+   "other"
+  ],
+  "3480803": [
+   "amount_wrong"
+  ],
+  "6087893": [
+   "amount_wrong"
+  ],
+  "7929592": [
+   "unauthorised"
+  ],
+  "6685867": [
+   "other"
+  ],
+  "7272335": [
+   "other"
+  ],
+  "6656693": [
+   "unauthorised"
+  ],
+  "3611468": [
+   "unauthorised"
+  ],
+  "3238875": [
+   "unauthorised"
+  ],
+  "7807534": [
+   "unauthorised"
+  ],
+  "3131884": [
+   "other"
+  ],
+  "3849715": [
+   "refund_not_given",
+   "unauthorised"
+  ],
+  "4062448": [
+   "unauthorised"
+  ],
+  "6211618": [
+   "amount_wrong"
+  ],
+  "4983048": [
+   "unauthorised"
+  ],
+  "7197182": [
+   "unauthorised",
+   "amount_wrong"
+  ],
+  "3322277": [
+   "unauthorised"
+  ],
+  "3157652": [
+   "other"
+  ],
+  "7966578": [
+   "duplicate",
+   "refund_not_given"
+  ],
+  "3932131": [
+   "unauthorised"
+  ],
+  "6646647": [
+   "refund_not_given"
+  ],
+  "6052429": [
+   "unauthorised"
+  ],
+  "6576125": [
+   "not_received",
+   "refund_not_given"
+  ],
+  "2818222": [
+   "amount_wrong"
+  ],
+  "4290571": [
+   "unauthorised"
+  ],
+  "3790615": [
+   "other"
+  ],
+  "8035325": [
+   "unauthorised"
+  ],
+  "6077529": [
+   "unauthorised"
+  ],
+  "3206582": [
+   "unauthorised"
+  ],
+  "5266977": [
+   "refund_not_given",
+   "not_received"
+  ],
+  "6608873": [
+   "other"
+  ],
+  "4754642": [
+   "unauthorised"
+  ],
+  "6937302": [
+   "not_received"
+  ],
+  "4308479": [
+   "refund_not_given"
+  ],
+  "7137600": [
+   "unauthorised"
+  ],
+  "6505291": [
+   "amount_wrong"
+  ],
+  "5099053": [
+   "other"
+  ],
+  "2673001": [
+   "amount_wrong"
+  ],
+  "3350159": [
+   "unauthorised"
+  ],
+  "7960005": [
+   "not_received"
+  ],
+  "3405439": [
+   "unauthorised"
+  ],
+  "2867631": [
+   "unauthorised"
+  ],
+  "3066381": [
+   "other"
+  ],
+  "2778311": [
+   "other"
+  ],
+  "4385027": [
+   "refund_not_given",
+   "not_as_described"
+  ],
+  "2855646": [
+   "not_received",
+   "refund_not_given"
+  ],
+  "4609574": [
+   "other"
+  ],
+  "3041035": [
+   "unauthorised"
+  ],
+  "6692282": [
+   "unauthorised"
+  ],
+  "3390015": [
+   "unauthorised"
+  ],
+  "7464211": [
+   "unauthorised"
+  ],
+  "5013224": [
+   "unauthorised"
+  ],
+  "4487912": [
+   "other"
+  ],
+  "6466652": [
+   "not_received"
+  ],
+  "4566970": [
+   "not_received"
+  ],
+  "6371538": [
+   "unauthorised"
+  ],
+  "3470768": [
+   "not_received"
+  ],
+  "7626706": [
+   "not_received"
+  ],
+  "6083970": [
+   "not_received"
+  ],
+  "6013021": [
+   "unauthorised"
+  ],
+  "3762147": [
+   "refund_not_given",
+   "not_received"
+  ],
+  "4651617": [
+   "not_received"
+  ],
+  "3934998": [
+   "unauthorised"
+  ],
+  "2711185": [
+   "unauthorised"
+  ],
+  "6562807": [
+   "duplicate"
+  ],
+  "6915312": [
+   "other"
+  ],
+  "7502227": [
+   "unauthorised"
+  ],
+  "4117068": [
+   "unauthorised"
+  ],
+  "4138754": [
+   "unauthorised"
+  ],
+  "7776262": [
+   "unauthorised"
+  ],
+  "4805283": [
+   "unauthorised",
+   "duplicate"
+  ],
+  "6896905": [
+   "not_received",
+   "not_as_described"
+  ]
+ },
+ "unclear": [
+  "3250341",
+  "4363129",
+  "3131884",
+  "6646647",
+  "5099053",
+  "3405439",
+  "3066381",
+  "2711185"
+ ]
+}
