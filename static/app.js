@@ -34,6 +34,7 @@ document.querySelectorAll(".tab").forEach((b) => b.addEventListener("click", () 
 // ---- queue ------------------------------------------------------------------------------------------------------
 function initQueue() {
   queueApi = agGrid.createGrid($("#queueGrid"), {
+    suppressColumnVirtualisation: true,
     columnDefs: [
       { field: "status_rank", headerName: "Status", width: 125, sort: "asc", sortIndex: 0, cellRenderer: (p) => `<span class="chip s-${p.data.status}">${esc(p.data.status_label)}</span>${p.data.auto_handled ? ' <span class="chip auto">auto</span>' : ""}` },
       { field: "order", headerName: "Order", width: 88 },
