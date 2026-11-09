@@ -116,7 +116,7 @@ class Warrant:
     # ---- seeding ----------------------------------------------------------------------------------------------
     def reset(self):
         with self.lock:
-            self.state = {"orders": {}, "cases": {}, "events": [], "seeding": None, "auto": self.state.get("auto", {"enabled": False})}
+            self.state = {"orders": {}, "cases": {}, "events": [], "seeding": None, "auto": {"enabled": False}}  # a fresh demo also clears an old kill-switch note
             self.save()
 
     def seed_demo(self, keys: list[str] | None = None) -> list[dict]:

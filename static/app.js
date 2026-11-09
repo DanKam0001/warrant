@@ -36,10 +36,10 @@ function initQueue() {
   queueApi = agGrid.createGrid($("#queueGrid"), {
     suppressColumnVirtualisation: true,
     columnDefs: [
-      { field: "status_rank", headerName: "Status", width: 125, sort: "asc", sortIndex: 0, cellRenderer: (p) => `<span class="chip s-${p.data.status}">${esc(p.data.status_label)}</span>${p.data.auto_handled ? ' <span class="chip auto">auto</span>' : ""}` },
-      { field: "order", headerName: "Order", width: 88 },
+      { field: "status_rank", headerName: "Status", width: 150, sort: "asc", sortIndex: 0, cellRenderer: (p) => `<span class="chip s-${p.data.status}">${esc(p.data.status_label)}</span>${p.data.auto_handled ? ' <span class="chip auto">auto</span>' : ""}` },
+      { field: "order", headerName: "Order", width: 82 },
       { field: "amount", headerName: "Amount", width: 78, valueFormatter: (p) => money(p.value) },
-      { field: "decision", headerName: "Warrant", width: 80, cellRenderer: (p) => (p.value ? `<span class="chip ${p.value}">${p.value === "review" ? "review" : p.value}</span>` : "") },
+      { field: "decision", headerName: "Warrant", width: 92, cellRenderer: (p) => (p.value ? `<span class="chip ${p.value}">${p.value === "review" ? "review" : p.value}</span>` : "") },
       { field: "last_at", headerName: "Last action", flex: 1, minWidth: 130, sort: "desc", sortIndex: 1, cellRenderer: (p) => (p.data.last_text ? `${esc(p.data.last_text)} <span class="muted">${esc(ago(p.value))}</span>` : '<span class="muted">none yet</span>') },
     ],
     isExternalFilterPresent: () => !!statusFilter || !!searchText,
@@ -64,7 +64,7 @@ function queueRows() {
       dispute_id: c.dispute_id, order: o.evidence?.purchase_record?.order_ref, reason: (c.reason || "").replace("MERCHANDISE_OR_SERVICE_", "").replaceAll("_", " ").toLowerCase(),
       amount: c.amount, stage: c.stage, decision: c.analysis?.decision?.action, paypal_status: c.paypal_status,
       status: c.status, status_label: c.status_label, status_rank: c.status_rank, auto_handled: c.auto_handled,
-      last_text: la ? (ACTION_WORD[la.action] || la.action) + (la.by === "auto" ? " (auto)" : "") : "", last_at: la?.at ? la.at + "Z" : "",
+      last_text: la ? (ACTION_WORD[la.action] || la.action) + (la.by === "auto" ? " (auto)" : "") : "", last_at: la?.at ? (/([zZ]|[+-]\d\d:\d\d)$/.test(la.at) ? la.at : la.at + "Z") : "",
     };
   });
 }
