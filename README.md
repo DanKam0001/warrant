@@ -86,7 +86,13 @@ Near-miss pairs (each is a unit test, and the case page shows them live from `GE
 In the UI every sentence carries chips such as `I1 override: "ignore your previous rules"` or `N3 evidence dispute: ... checked
 against the shipping record`, the exact phrase is highlighted in the claim, and the legend with the nine ids is under the claim.
 Limits: this is a pattern layer, not a language model, so novel phrasings can get through. That is survivable by design (a
-missed injection is read as an ordinary claim and checked, never obeyed), and Part "Proof" reports measured rates.
+missed injection is read as an ordinary claim and checked, never obeyed), and the measured rates are in
+[RESULTS.md](RESULTS.md) under "Real data" (`eval/real_results.json`). Measured on 28,898 real CFPB complaints (399,824
+sentences): 897 sentences flagged by the first rules (2.78% of narratives), 152 after the rules were tightened on that same
+data (0.50%, not held-out). Against 563 real public attack prompts (deepset, Apache-2.0; Lakera, MIT) the code layer
+flags 205 (36%) on its own, far fewer than the model layer, and the keyword-splitter decision did not change on any of
+the 563. On a 60-prompt sample with the model splitter the decision moved on 5, two of them fight to refund with no refund
+instruction in the attack text (see RESULTS.md). The complaints are real; the merchant evidence and the labels are constructed and the builder's.
 
 ## What "fight" means, and what Warrant never does
 
@@ -144,6 +150,7 @@ PayPal takes a minute or two to list new disputes.
 - Eval: `.venv\Scripts\python.exe scripts\run_eval.py` regenerates `proof_results/eval.json` and `RESULTS.md`
   (60 dev cases, 23 held-out set 2 cases, and the 10-claim wording set in `eval/heldout.py`). Add `--report-only` to rebuild `RESULTS.md` from
   the saved run without calling the model.
+- Real-data eval (calls the model, capped): `.venv\Scripts\python.exe scriptsun_real_eval.py` writes `eval/real_results.json`; `--no-model` runs the free parts and `--reuse-llm` reuses the first run's LLM-alone results.
 - Screenshots: `.venv\Scripts\python.exe scripts\screenshot_ui.py` (Playwright driving the installed Edge, with the
   app running; `pip install playwright` first, it is not in `requirements.txt`) saves `proof_results/ui_*.png`.
 - Tests: `.venv\Scripts\python.exe -m pytest -q` (61 tests) covers the checker, the decision rule, the floor and
