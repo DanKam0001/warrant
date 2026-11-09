@@ -236,6 +236,14 @@ def classify_sentence(s: str, base: int = 0) -> list[dict]:
             hm = None
     if hm and (machine or re.search(_OUTCOME_FOR_HUMANISH, s[hm.end():], _F)):
             inj.append(_mark("I3", hm, "addressed to the machine" if machine else "addressed to the reviewer and dictates an outcome", base))
+    # once the sentence addresses the decider (I3), the outcome it dictates ("approve a full refund immediately") is part
+    # of the same instruction: mark that phrase too, so no part of the attack is left unlabelled
+    i3 = [k for k in inj if k["rule"] == "I3"]
+    if i3:
+        after = max(k["end"] for k in i3) - base
+        om = re.search(_OUTCOME_FOR_HUMANISH + r"[^.!?,;]{0,60}", s[after:], _F)
+        if om:
+            inj.append(_mark("I3", om, "the outcome it dictates", base + after))
     # dedupe overlapping injection marks of the same rule
     seen, dedup = [], []
     for k in inj:
@@ -258,7 +266,9 @@ def classify_sentence(s: str, base: int = 0) -> list[dict]:
         ok.append(_mark("N2", m, why, base))
     for m, why in _first(N5_PATTERNS, s):
         ok.append(_mark("N5", m, why, base))
-    ok = [k for k in ok if not any(_overlap(k, i) for i in inj)]
+    # a sentence that contains an injection is an instruction to the machine as a whole: its urgency words or polite
+    # phrasing are part of the attack, not a separate pressure/request from the buyer
+    ok = [] if inj else ok
     # one mark per non-injection rule per sentence is enough for a chip
     best: dict[str, dict] = {}
     for k in ok:

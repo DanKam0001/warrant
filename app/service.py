@@ -242,6 +242,15 @@ class Warrant:
             case = self.state["cases"][dispute_id]
             order = self.state["orders"][case["capture_id"]]
             policy = self.policy
+        cond = order["evidence"].get("condition") or {}
+        if cond.get("photos"):  # the vision model describes each photo once (cached); failed descriptions are retried
+            from . import photos as photos_mod
+            if getattr(self, "vision", None) is None:
+                self.vision = photos_mod.Vision()
+            cond["obs"] = {k: v for k, v in (cond.get("obs") or {}).items() if not v.get("error")}
+            photos_mod.observe(order["evidence"], self.vision)
+            with self.lock:
+                self.save()
         result = analyse_claim(self.splitter, case["claim"], order["evidence"], case["reason"], case["amount"], policy)
         if case.get("custom_on_dispute") and case["custom_on_dispute"] != order["evidence"]["record_hash"]:
             result["integrity_warning"] = "custom_id on the disputed PayPal transaction does not match our record hash"
