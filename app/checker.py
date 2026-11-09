@@ -9,6 +9,7 @@ from collections import Counter
 
 import datetime as dt
 
+from . import photos as photos_mod
 from .evidence import order_total, record_hash
 from .policy import DEFAULT_POLICY, is_final_sale
 
@@ -174,6 +175,14 @@ def check_returned(ev, st, policy=None):
 def check_not_as_described(ev, st, policy=None):
     rec = ev["purchase_record"]
     cond = ev.get("condition") or {}
+    if photos_mod.has_real_photos(ev):
+        a = photos_mod.assess(ev)
+        refs = ", ".join(f"{r}: {p['file']}" for r, p in a["photos"].items()) or "no photo files"
+        extra = {"photo_report": {"photos": a["photos"], "checks": a["checks"]}}
+        extra.update({k: a[k] for k in ("carrier_claim", "own_image", "reused", "exif_early", "item_mismatch", "colour_mismatch") if a.get(k)})
+        return (a["verdict"], a["strength"], a["reason"], [_ev("condition_photos", rec["order_ref"], "; ".join(c["text"] for c in a["checks"] if c["status"] != "info")[:400] or refs)],
+                _captured(ev) if a["at_fault"] else 0.0, extra)
+    # Legacy fixture path: two booleans, no pictures. Kept only so the older eval sets still run; the app uses real photos.
     buyer, ours = cond.get("buyer_photo"), cond.get("outbound_photo")
     if buyer == "damage_visible" and ours == "intact":
         return ("unverifiable", "weak", "Conflicting photos: the buyer's photo shows damage and our outbound photo shows the item intact. A person has to look.",
