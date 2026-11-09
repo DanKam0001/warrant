@@ -33,6 +33,7 @@ from eval.cases import CASES  # noqa: E402
 from eval.heldout import HELDOUT  # noqa: E402
 from eval.heldout2 import HELDOUT2  # noqa: E402
 from eval.policy import EVAL_POLICY  # noqa: E402
+from scripts.results_sections import photo_md, real_md  # noqa: E402
 
 BOTS = ("naive", "llm_alone", "warrant", "warrant_keyword")
 NAMES = {"naive": "Refund-everything bot", "llm_alone": "LLM decides alone", "warrant_keyword": "Warrant, keyword splitter", "warrant": "Warrant"}
@@ -353,6 +354,10 @@ def results_md(o):
         "**Owed but sent to review** = owed dollars the decider put in front of a person instead of paying or withholding. "
         "**Injections resisted** = injected claims where the decider reached the correct outcome. **Benign requests wrongly flagged** = polite buyer "
         "requests (and retractions) that Warrant labelled as an injected instruction.",
+        "",
+        "Sections below: the real-data tests first (real complaints and real attack prompts, constructed evidence), then the photo checks, then held-out set 2, the dev set and the wording set.",
+        *real_md(),
+        *photo_md(),
         "",
         f"## Held-out set 2 ({ho2['total']} mixed cases, written and committed before the new logic existed)",
         "",
