@@ -231,7 +231,7 @@ MIT, see `LICENSE`.
 
 ## Public demo
 
-https://warrant-demo.onrender.com is a read-only copy (`WARRANT_DEMO=1`, see `render.yaml`): it serves a saved run from
+https://warrant-demo-aa45.onrender.com is a read-only copy (`WARRANT_DEMO=1`, see `render.yaml`): it serves a saved run from
 the PayPal sandbox (`demo_snapshot/`), holds no PayPal or Nebius keys, and refuses every change. You can open each case
 and try your own claim text (keyword splitter there, no model). Answering disputes, reset and auto mode need a local run
 with your own sandbox keys. On Render's free tier the first load can take about a minute.
