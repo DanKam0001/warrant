@@ -230,7 +230,7 @@ class Nemotron:
         self.model = pref[0]
         return self.model
 
-    def chat_json(self, system: str, user: str, max_tokens: int = 900) -> dict:
+    def chat_json(self, system: str, user: str, max_tokens: int = 3000) -> dict:
         if not self.base_url:
             raise ModelUnavailable("NEBIUS_BASE_URL not set")
         model = self.resolve_model()
