@@ -6,6 +6,7 @@ node_modules/
 runs/
 data/*
 !data/policy.json
+!data/photos/
 .pytest_cache/
 TASK.md
 BUILD_NOTES.md
