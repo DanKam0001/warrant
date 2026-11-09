@@ -130,11 +130,22 @@ def kill_auto():
 def _seed():
     try:
         warrant.seed_demo()
-        for _ in range(12):  # chargebacks reach the disputes list after ~20-40 s
+        for _ in range(60):  # chargebacks usually reach PayPal in 20-40 s, but the sandbox has taken minutes
             time.sleep(10)
-            warrant.sync()
+            try:
+                warrant.sync()
+            except PayPalError as e:
+                warrant.event(f"Sync during seeding failed, retrying: {e}")
+                continue
             if len(warrant.state["cases"]) >= len(warrant.state["orders"]):
                 break
+        # Check every new case once so the queue opens with decisions, not blanks.
+        for did, c in list(warrant.state["cases"].items()):
+            if not c.get("analysis") and c.get("stage") != "answered":
+                try:
+                    warrant.analyse(did, quiet=True)
+                except Exception as e:  # noqa: BLE001
+                    warrant.event(f"Checking {did} after seeding failed: {e}")
     except Exception as e:  # noqa: BLE001
         warrant.event(f"Seeding failed: {e}")
         with warrant.lock:

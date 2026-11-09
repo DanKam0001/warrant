@@ -94,4 +94,22 @@ DEMO = [
             "scans": [{"status": "DELIVERED", "at": "2026-10-30T12:00:00Z", "postcode": "73301"}],
         },
     },
+    {
+        "key": "review",
+        "label": "Damage claim with no photo either way: a person decides",
+        "reason_kind": "not_as_described",
+        "claim": "The vase arrived with a big crack down the side. I'd prefer a replacement if you have one.",
+        "record": _record(
+            "KK-2045",
+            {"name": "Morgan Lee", "email": "morgan.lee@example.com"},
+            [{"sku": "VASE-TALL", "name": "Tall celadon vase", "qty": 1, "unit_price": 72.00}],
+            "30309",
+            {"method": "account_login+3ds", "by": "Morgan Lee", "at": "2026-10-28T16:45:00Z", "ip": "203.0.113.81"},
+            category="decor",
+        ),
+        "shipment": {
+            "carrier": "UPS", "tracking_number": "1Z999AA10123456791", "shipped_skus": ["VASE-TALL"],
+            "scans": [{"status": "DELIVERED", "at": "2026-10-31T11:20:00Z", "postcode": "30309"}],
+        },
+    },
 ]
