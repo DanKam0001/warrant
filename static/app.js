@@ -19,7 +19,7 @@ const ACTION_WORD = { concede: "Refunded", partial: "Partly refunded", fight: "E
 
 async function api(path, opts = {}) {
   const r = await fetch(path, { method: opts.method || "GET", headers: { "Content-Type": "application/json" }, body: opts.body ? JSON.stringify(opts.body) : undefined });
-  if (!r.ok) throw new Error((await r.text()).slice(0, 300));
+  if (!r.ok) { const t = await r.text(); let m = t; try { m = JSON.parse(t).detail || t; } catch (e) { /* plain text */ } throw new Error(String(m).slice(0, 300)); }
   return r.json();
 }
 
@@ -425,5 +425,6 @@ function renderBoard() {
 }
 
 initQueue();
+fetch("/api/health").then((r) => r.json()).then((h) => { if (h.demo) $("#demoBanner").hidden = false; }).catch(() => {});
 refresh();
 setInterval(refresh, 4000);

@@ -9,13 +9,24 @@ from pathlib import Path
 
 from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException, Request
-from fastapi.responses import FileResponse
+from fastapi.responses import FileResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 
 ROOT = Path(__file__).resolve().parent.parent
-# .env wins over a stale empty variable left in the shell.
-load_dotenv(ROOT / ".env", override=True)
+# Public read-only demo (WARRANT_DEMO=1, used on Render): serves a saved snapshot of a real sandbox run, loads no
+# .env, never calls PayPal and refuses every change, so a public URL can't spend keys or move sandbox money.
+DEMO = os.environ.get("WARRANT_DEMO") == "1"
+if DEMO:
+    import shutil
+    (ROOT / "data").mkdir(exist_ok=True)
+    for name in ("store.json", "activity.jsonl", "policy.json"):
+        shutil.copyfile(ROOT / "demo_snapshot" / name, ROOT / "data" / name)
+    for key in ("PAYPAL_CLIENT_ID", "PAYPAL_CLIENT_SECRET", "NEBIUS_API_KEY"):
+        os.environ.pop(key, None)
+else:
+    # .env wins over a stale empty variable left in the shell.
+    load_dotenv(ROOT / ".env", override=True)
 
 from . import floor as floor_mod  # noqa: E402
 from . import status as status_mod  # noqa: E402
@@ -26,6 +37,15 @@ from .service import ReviewRequired, Warrant, analyse_claim  # noqa: E402
 app = FastAPI(title="Warrant")
 warrant = Warrant()
 _busy = threading.Lock()
+DEMO_ALLOWED = {"/api/try", "/api/classify"}  # these only read: try runs the keyword splitter with no model key
+
+
+@app.middleware("http")
+async def _read_only(request: Request, call_next):
+    if DEMO and request.method not in ("GET", "HEAD") and request.url.path not in DEMO_ALLOWED:
+        return JSONResponse({"detail": "This is the read-only public demo, a saved run from the PayPal sandbox. "
+                             "To answer disputes, reset or use auto mode, run Warrant locally (see the README)."}, 403)
+    return await call_next(request)
 
 
 def _poll_loop():
@@ -42,13 +62,13 @@ def _poll_loop():
 
 @app.on_event("startup")
 def _start():
-    if warrant.pp.configured and os.environ.get("WARRANT_POLL", "1") != "0":
+    if not DEMO and warrant.pp.configured and os.environ.get("WARRANT_POLL", "1") != "0":
         threading.Thread(target=_poll_loop, daemon=True).start()
 
 
 @app.get("/api/health")
 def health():
-    return {"ok": True, "paypal_configured": warrant.pp.configured, "cases": len(warrant.state["cases"])}
+    return {"ok": True, "demo": DEMO, "paypal_configured": warrant.pp.configured, "cases": len(warrant.state["cases"])}
 
 
 @app.get("/api/state")

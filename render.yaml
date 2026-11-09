@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: warrant-demo
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /api/health
+    envVars:
+      - key: WARRANT_DEMO
+        value: "1"
+      - key: WARRANT_POLL
+        value: "0"
+      - key: PYTHON_VERSION
+        value: "3.12.7"

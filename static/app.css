@@ -171,3 +171,5 @@ button.kill { background: #b42318; color: #fff; border-color: #b42318; padding: 
 .phchk.warn { border-left-color: #b54708; }
 .phtag { font: 600 10.5px "JetBrains Mono", monospace; text-transform: uppercase; margin-right: 4px; }
 .carrierNote { margin-top: 10px; padding: 8px 10px; border-radius: 8px; background: #fff4e5; border: 1px solid #f0c27a; font-size: 13px; }
+.demoBanner { margin: 8px 16px 0; padding: 8px 12px; border-radius: 8px; background: #eef4ff; border: 1px solid #b6cdf5; font-size: 13px; }
+.demoBanner[hidden] { display: none; }
