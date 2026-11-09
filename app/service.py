@@ -161,7 +161,10 @@ class Warrant:
                 known = did in self.state["cases"]
             caps = [t.get("seller_transaction_id") for t in it.get("disputed_transactions", [])]
             if not known:
-                d = self.pp.show_dispute(did)
+                try:
+                    d = self.pp.show_dispute(did)
+                except PayPalError:
+                    continue  # an old or unrelated dispute the sandbox won't serve right now must not stop intake
                 caps = [t.get("seller_transaction_id") for t in d.get("disputed_transactions", [])]
                 cap = next((c for c in caps if c in self.state["orders"]), None)
                 if not cap:

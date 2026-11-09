@@ -158,7 +158,7 @@ def _seed():
 @app.post("/api/reset")
 def reset(seed: bool = True):
     if not _busy.acquire(blocking=False):
-        raise HTTPException(409, "seeding already running")
+        return {"ok": True, "seeding": "already running"}  # a second click while seeding is harmless
     warrant.reset()
     if seed and warrant.pp.configured:
         threading.Thread(target=_seed, daemon=True).start()
