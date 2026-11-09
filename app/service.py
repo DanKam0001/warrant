@@ -307,7 +307,21 @@ class Warrant:
             if "provide_evidence" in offered:
                 sh = ev.get("shipment") or {}
                 evidences = [{"evidence_type": "PROOF_OF_FULFILLMENT", "evidence_info": {"tracking_info": [{"carrier_name": sh.get("carrier", "OTHER"), "tracking_number": sh.get("tracking_number", "")}]}, "notes": notes[:2000]}]
-                attempt("provide-evidence", lambda: self.pp.provide_evidence(dispute_id, evidences))
+                files = None
+                ph = ((ev.get("condition") or {}).get("photos") or {}).get("outbound")
+                if ph:  # our dispatch photo goes to PayPal as a real file part; on any 4xx fall back to the text evidence alone
+                    from . import photos as photos_mod
+                    try:
+                        data = photos_mod.load(ph)
+                        evidences[0]["documents"] = [{"name": "dispatch_photo.jpg"}]
+                        files = {"file1": ("dispatch_photo.jpg", data, "image/jpeg")}
+                    except OSError:
+                        files = None
+                if files and attempt("provide-evidence (with dispatch photo)", lambda: self.pp.provide_evidence(dispute_id, evidences, files)) is None:
+                    evidences[0].pop("documents", None)
+                    attempt("provide-evidence", lambda: self.pp.provide_evidence(dispute_id, evidences))
+                elif not files:
+                    attempt("provide-evidence", lambda: self.pp.provide_evidence(dispute_id, evidences))
             if not any(s["ok"] for s in steps) and "provide_supporting_info" in offered:
                 attempt("provide-supporting-info", lambda: self.pp.provide_supporting_info(dispute_id, notes))
         else:

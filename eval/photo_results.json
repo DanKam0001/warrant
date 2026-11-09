@@ -1,0 +1,781 @@
+{
+ "dev": {
+  "naive": {
+   "summary": {
+    "n": 15,
+    "correct": 7,
+    "wrong_refunds": 3,
+    "wrongly_fought": 0,
+    "to_review_when_not_review": 0,
+    "missed_review": 5
+   },
+   "rows": [
+    {
+     "id": "P101",
+     "title": "Mug transit damage",
+     "truth": "concede",
+     "got": "concede",
+     "ok": true,
+     "reason": "buyer attached a photo"
+    },
+    {
+     "id": "P102",
+     "title": "Mug intact in both photos",
+     "truth": "fight",
+     "got": "concede",
+     "ok": false,
+     "reason": "buyer attached a photo"
+    },
+    {
+     "id": "P103",
+     "title": "Buyer attaches our listing photo",
+     "truth": "fight",
+     "got": "concede",
+     "ok": false,
+     "reason": "buyer attached a photo"
+    },
+    {
+     "id": "P104",
+     "title": "Cup photo stamped before delivery",
+     "truth": "review",
+     "got": "concede",
+     "ok": false,
+     "reason": "buyer attached a photo"
+    },
+    {
+     "id": "P105",
+     "title": "Blurred cup photo",
+     "truth": "review",
+     "got": "concede",
+     "ok": false,
+     "reason": "buyer attached a photo"
+    },
+    {
+     "id": "P106",
+     "title": "Vase transit damage",
+     "truth": "concede",
+     "got": "concede",
+     "ok": true,
+     "reason": "buyer attached a photo"
+    },
+    {
+     "id": "P107",
+     "title": "Vase intact in both photos",
+     "truth": "fight",
+     "got": "concede",
+     "ok": false,
+     "reason": "buyer attached a photo"
+    },
+    {
+     "id": "P108",
+     "title": "Colour looks right, nothing wrong visible",
+     "truth": "review",
+     "got": "concede",
+     "ok": false,
+     "reason": "buyer attached a photo"
+    },
+    {
+     "id": "P109",
+     "title": "Red mug sent for a blue order",
+     "truth": "concede",
+     "got": "concede",
+     "ok": true,
+     "reason": "buyer attached a photo"
+    },
+    {
+     "id": "P110",
+     "title": "Smashed plate, shop has no photo",
+     "truth": "concede",
+     "got": "concede",
+     "ok": true,
+     "reason": "buyer attached a photo"
+    },
+    {
+     "id": "P111",
+     "title": "We shipped it cracked",
+     "truth": "concede",
+     "got": "concede",
+     "ok": true,
+     "reason": "buyer attached a photo"
+    },
+    {
+     "id": "P112",
+     "title": "No photos at all",
+     "truth": "review",
+     "got": "fight",
+     "ok": false,
+     "reason": "no buyer photo"
+    },
+    {
+     "id": "P113",
+     "title": "Shop photo intact, buyer sends none",
+     "truth": "fight",
+     "got": "fight",
+     "ok": true,
+     "reason": "no buyer photo"
+    },
+    {
+     "id": "P114",
+     "title": "Cup photo reused on another dispute",
+     "truth": "review",
+     "got": "concede",
+     "ok": false,
+     "reason": "buyer attached a photo"
+    },
+    {
+     "id": "P115",
+     "title": "Dispatch photo stamped after the carrier took it",
+     "truth": "concede",
+     "got": "concede",
+     "ok": true,
+     "reason": "buyer attached a photo"
+    }
+   ]
+  },
+  "vl_alone": {
+   "summary": {
+    "n": 15,
+    "correct": 8,
+    "wrong_refunds": 0,
+    "wrongly_fought": 2,
+    "to_review_when_not_review": 2,
+    "missed_review": 3
+   },
+   "rows": [
+    {
+     "id": "P101",
+     "title": "Mug transit damage",
+     "truth": "concede",
+     "got": "fight",
+     "ok": false,
+     "reason": "Buyer photo shows a different broken mug (blue with stars), not the intact holly mug dispatched."
+    },
+    {
+     "id": "P102",
+     "title": "Mug intact in both photos",
+     "truth": "fight",
+     "got": "fight",
+     "ok": true,
+     "reason": "No crack is visible in the buyer's photo; the mug appears identical to the dispatch photo."
+    },
+    {
+     "id": "P103",
+     "title": "Buyer attaches our listing photo",
+     "truth": "fight",
+     "got": "fight",
+     "ok": true,
+     "reason": "Buyer's photo is identical to the dispatch photo and shows no visible damage to the mug."
+    },
+    {
+     "id": "P104",
+     "title": "Cup photo stamped before delivery",
+     "truth": "review",
+     "got": "fight",
+     "ok": false,
+     "reason": "Buyer photo shows a different broken blue mug, not the intact white holly mug dispatched."
+    },
+    {
+     "id": "P105",
+     "title": "Blurred cup photo",
+     "truth": "review",
+     "got": "fight",
+     "ok": false,
+     "reason": "Dispatch photo shows the mug intact; buyer photo is too blurry to verify damage or item identity."
+    },
+    {
+     "id": "P106",
+     "title": "Vase transit damage",
+     "truth": "concede",
+     "got": "concede",
+     "ok": true,
+     "reason": "Buyer photo shows the vase smashed into pieces, consistent with shipping damage; listing and dispatch photos show it intact."
+    },
+    {
+     "id": "P107",
+     "title": "Vase intact in both photos",
+     "truth": "fight",
+     "got": "fight",
+     "ok": true,
+     "reason": "Buyer's photo shows the vase is intact and matches the dispatch photo; no crack is visible."
+    },
+    {
+     "id": "P108",
+     "title": "Colour looks right, nothing wrong visible",
+     "truth": "review",
+     "got": "review",
+     "ok": true,
+     "reason": "Cannot verify color discrepancy without the merchant's listing photo for comparison"
+    },
+    {
+     "id": "P109",
+     "title": "Red mug sent for a blue order",
+     "truth": "concede",
+     "got": "concede",
+     "ok": true,
+     "reason": "Buyer received a white mug with holly design, but listing shows a solid blue mug. Clear item not as described."
+    },
+    {
+     "id": "P110",
+     "title": "Smashed plate, shop has no photo",
+     "truth": "concede",
+     "got": "review",
+     "ok": false,
+     "reason": "unparseable"
+    },
+    {
+     "id": "P111",
+     "title": "We shipped it cracked",
+     "truth": "concede",
+     "got": "concede",
+     "ok": true,
+     "reason": "Listing shows an intact plate, while buyer and dispatch photos show the same plate shattered with burn marks."
+    },
+    {
+     "id": "P112",
+     "title": "No photos at all",
+     "truth": "review",
+     "got": "review",
+     "ok": true,
+     "reason": "No photos provided to verify the chip; insufficient evidence to refund or fight."
+    },
+    {
+     "id": "P113",
+     "title": "Shop photo intact, buyer sends none",
+     "truth": "fight",
+     "got": "review",
+     "ok": false,
+     "reason": "unparseable"
+    },
+    {
+     "id": "P114",
+     "title": "Cup photo reused on another dispute",
+     "truth": "review",
+     "got": "fight",
+     "ok": false,
+     "reason": "Buyer photo shows a different broken blue mug, not the intact white holly mug dispatched."
+    },
+    {
+     "id": "P115",
+     "title": "Dispatch photo stamped after the carrier took it",
+     "truth": "concede",
+     "got": "fight",
+     "ok": false,
+     "reason": "Buyer photo shows a different broken blue mug, not the intact white holly mug dispatched."
+    }
+   ]
+  },
+  "warrant": {
+   "summary": {
+    "n": 15,
+    "correct": 14,
+    "wrong_refunds": 1,
+    "wrongly_fought": 0,
+    "to_review_when_not_review": 0,
+    "missed_review": 0
+   },
+   "rows": [
+    {
+     "id": "P101",
+     "title": "Mug transit damage",
+     "truth": "concede",
+     "got": "concede",
+     "ok": true,
+     "reason": "The order is white but the buyer's photo shows blue."
+    },
+    {
+     "id": "P102",
+     "title": "Mug intact in both photos",
+     "truth": "fight",
+     "got": "fight",
+     "ok": true,
+     "reason": "The buyer's own photo and our dispatch photo both show the item intact; the damage claim is contradicted."
+    },
+    {
+     "id": "P103",
+     "title": "Buyer attaches our listing photo",
+     "truth": "fight",
+     "got": "fight",
+     "ok": true,
+     "reason": "The photo the buyer sent is our listing photo, not a photo of the delivered item."
+    },
+    {
+     "id": "P104",
+     "title": "Cup photo stamped before delivery",
+     "truth": "review",
+     "got": "review",
+     "ok": true,
+     "reason": "The buyer's photo is stamped earlier than the delivery. A person has to look."
+    },
+    {
+     "id": "P105",
+     "title": "Blurred cup photo",
+     "truth": "review",
+     "got": "review",
+     "ok": true,
+     "reason": "The buyer's photo could not be read with enough confidence. A person has to look."
+    },
+    {
+     "id": "P106",
+     "title": "Vase transit damage",
+     "truth": "concede",
+     "got": "concede",
+     "ok": true,
+     "reason": "The order is green but the buyer's photo shows black."
+    },
+    {
+     "id": "P107",
+     "title": "Vase intact in both photos",
+     "truth": "fight",
+     "got": "concede",
+     "ok": false,
+     "reason": "Our dispatch photo shows damage already; the claim holds."
+    },
+    {
+     "id": "P108",
+     "title": "Colour looks right, nothing wrong visible",
+     "truth": "review",
+     "got": "review",
+     "ok": true,
+     "reason": "The buyer's photo does not show the damage claimed and there is no dispatch photo. A person has to look."
+    },
+    {
+     "id": "P109",
+     "title": "Red mug sent for a blue order",
+     "truth": "concede",
+     "got": "concede",
+     "ok": true,
+     "reason": "The order is blue but the buyer's photo shows white."
+    },
+    {
+     "id": "P110",
+     "title": "Smashed plate, shop has no photo",
+     "truth": "concede",
+     "got": "concede",
+     "ok": true,
+     "reason": "The buyer's photo shows the damage and the shop has no dispatch photo to counter it."
+    },
+    {
+     "id": "P111",
+     "title": "We shipped it cracked",
+     "truth": "concede",
+     "got": "concede",
+     "ok": true,
+     "reason": "Our dispatch photo shows damage already; the claim holds."
+    },
+    {
+     "id": "P112",
+     "title": "No photos at all",
+     "truth": "review",
+     "got": "review",
+     "ok": true,
+     "reason": "Code cannot inspect the goods; condition claims need photos or a return."
+    },
+    {
+     "id": "P113",
+     "title": "Shop photo intact, buyer sends none",
+     "truth": "fight",
+     "got": "fight",
+     "ok": true,
+     "reason": "Our dispatch photo shows the item intact and the buyer sent no photo of any damage."
+    },
+    {
+     "id": "P114",
+     "title": "Cup photo reused on another dispute",
+     "truth": "review",
+     "got": "review",
+     "ok": true,
+     "reason": "The buyer's photo is also attached to order PH-901's dispute. A person has to compare them."
+    },
+    {
+     "id": "P115",
+     "title": "Dispatch photo stamped after the carrier took it",
+     "truth": "concede",
+     "got": "concede",
+     "ok": true,
+     "reason": "The order is white but the buyer's photo shows blue."
+    }
+   ]
+  }
+ },
+ "heldout": {
+  "naive": {
+   "summary": {
+    "n": 14,
+    "correct": 7,
+    "wrong_refunds": 2,
+    "wrongly_fought": 0,
+    "to_review_when_not_review": 0,
+    "missed_review": 5
+   },
+   "rows": [
+    {
+     "id": "P1",
+     "title": "Transit damage: intact when we packed it, smashed on arrival",
+     "truth": "concede",
+     "got": "concede",
+     "ok": true,
+     "reason": "buyer attached a photo"
+    },
+    {
+     "id": "P2",
+     "title": "Both photos show an intact plate",
+     "truth": "fight",
+     "got": "concede",
+     "ok": false,
+     "reason": "buyer attached a photo"
+    },
+    {
+     "id": "P3",
+     "title": "Buyer photo of damage, shop has no photo",
+     "truth": "concede",
+     "got": "concede",
+     "ok": true,
+     "reason": "buyer attached a photo"
+    },
+    {
+     "id": "P4",
+     "title": "No buyer photo, shop photo intact",
+     "truth": "fight",
+     "got": "fight",
+     "ok": true,
+     "reason": "no buyer photo"
+    },
+    {
+     "id": "P5",
+     "title": "Buyer 'photo' is our own listing picture",
+     "truth": "fight",
+     "got": "concede",
+     "ok": false,
+     "reason": "buyer attached a photo"
+    },
+    {
+     "id": "P6",
+     "title": "Damage photo already used on another dispute",
+     "truth": "review",
+     "got": "concede",
+     "ok": false,
+     "reason": "buyer attached a photo"
+    },
+    {
+     "id": "P7",
+     "title": "Photo metadata says it was taken before delivery",
+     "truth": "review",
+     "got": "concede",
+     "ok": false,
+     "reason": "buyer attached a photo"
+    },
+    {
+     "id": "P8",
+     "title": "Buyer photo too blurred to judge",
+     "truth": "review",
+     "got": "concede",
+     "ok": false,
+     "reason": "buyer attached a photo"
+    },
+    {
+     "id": "P9",
+     "title": "Wrong colour in the buyer's photo",
+     "truth": "concede",
+     "got": "concede",
+     "ok": true,
+     "reason": "buyer attached a photo"
+    },
+    {
+     "id": "P10",
+     "title": "A different object in the buyer's photo",
+     "truth": "concede",
+     "got": "concede",
+     "ok": true,
+     "reason": "buyer attached a photo"
+    },
+    {
+     "id": "P11",
+     "title": "We shipped it already cracked",
+     "truth": "concede",
+     "got": "concede",
+     "ok": true,
+     "reason": "buyer attached a photo"
+    },
+    {
+     "id": "P12",
+     "title": "Buyer photo is a studio catalogue shot, not ours",
+     "truth": "review",
+     "got": "concede",
+     "ok": false,
+     "reason": "buyer attached a photo"
+    },
+    {
+     "id": "P13",
+     "title": "No photos from anyone",
+     "truth": "review",
+     "got": "fight",
+     "ok": false,
+     "reason": "no buyer photo"
+    },
+    {
+     "id": "P14",
+     "title": "Damage photo with no metadata (EXIF stripped)",
+     "truth": "concede",
+     "got": "concede",
+     "ok": true,
+     "reason": "buyer attached a photo"
+    }
+   ]
+  },
+  "vl_alone": {
+   "summary": {
+    "n": 14,
+    "correct": 10,
+    "wrong_refunds": 0,
+    "wrongly_fought": 0,
+    "to_review_when_not_review": 3,
+    "missed_review": 1
+   },
+   "rows": [
+    {
+     "id": "P1",
+     "title": "Transit damage: intact when we packed it, smashed on arrival",
+     "truth": "concede",
+     "got": "concede",
+     "ok": true,
+     "reason": "Dispatch photo shows plate intact; buyer photo shows plate smashed upon arrival."
+    },
+    {
+     "id": "P2",
+     "title": "Both photos show an intact plate",
+     "truth": "fight",
+     "got": "review",
+     "ok": false,
+     "reason": "unparseable"
+    },
+    {
+     "id": "P3",
+     "title": "Buyer photo of damage, shop has no photo",
+     "truth": "concede",
+     "got": "concede",
+     "ok": true,
+     "reason": "Buyer provided photo evidence of a shattered plate, while the listing shows an intact item."
+    },
+    {
+     "id": "P4",
+     "title": "No buyer photo, shop photo intact",
+     "truth": "fight",
+     "got": "fight",
+     "ok": true,
+     "reason": "Dispatch photo shows the plate was undamaged and chip-free when packed."
+    },
+    {
+     "id": "P5",
+     "title": "Buyer 'photo' is our own listing picture",
+     "truth": "fight",
+     "got": "fight",
+     "ok": true,
+     "reason": "The buyer's photo shows the same undamaged plate as the listing and dispatch photos; no crack is visible."
+    },
+    {
+     "id": "P6",
+     "title": "Damage photo already used on another dispute",
+     "truth": "review",
+     "got": "review",
+     "ok": true,
+     "reason": "unparseable"
+    },
+    {
+     "id": "P7",
+     "title": "Photo metadata says it was taken before delivery",
+     "truth": "review",
+     "got": "review",
+     "ok": true,
+     "reason": "unparseable"
+    },
+    {
+     "id": "P8",
+     "title": "Buyer photo too blurred to judge",
+     "truth": "review",
+     "got": "review",
+     "ok": true,
+     "reason": "unparseable"
+    },
+    {
+     "id": "P9",
+     "title": "Wrong colour in the buyer's photo",
+     "truth": "concede",
+     "got": "review",
+     "ok": false,
+     "reason": "unparseable"
+    },
+    {
+     "id": "P10",
+     "title": "A different object in the buyer's photo",
+     "truth": "concede",
+     "got": "review",
+     "ok": false,
+     "reason": "unparseable"
+    },
+    {
+     "id": "P11",
+     "title": "We shipped it already cracked",
+     "truth": "concede",
+     "got": "concede",
+     "ok": true,
+     "reason": "The merchant's dispatch photo shows the plate was already smashed before shipping, confirming the buyer's claim."
+    },
+    {
+     "id": "P12",
+     "title": "Buyer photo is a studio catalogue shot, not ours",
+     "truth": "review",
+     "got": "fight",
+     "ok": false,
+     "reason": "Buyer's photo shows the teapot intact with no visible cracks, matching the listing condition."
+    },
+    {
+     "id": "P13",
+     "title": "No photos from anyone",
+     "truth": "review",
+     "got": "review",
+     "ok": true,
+     "reason": "unparseable"
+    },
+    {
+     "id": "P14",
+     "title": "Damage photo with no metadata (EXIF stripped)",
+     "truth": "concede",
+     "got": "concede",
+     "ok": true,
+     "reason": "Dispatch photo shows the plate intact; buyer photo shows it smashed, confirming damage in transit."
+    }
+   ]
+  },
+  "warrant": {
+   "summary": {
+    "n": 14,
+    "correct": 14,
+    "wrong_refunds": 0,
+    "wrongly_fought": 0,
+    "to_review_when_not_review": 0,
+    "missed_review": 0
+   },
+   "rows": [
+    {
+     "id": "P1",
+     "title": "Transit damage: intact when we packed it, smashed on arrival",
+     "truth": "concede",
+     "got": "concede",
+     "ok": true,
+     "reason": "Transit damage: our dispatch photo shows the item intact, the buyer's photo shows it damaged on arrival. A remedy is owed and the carrier is liable."
+    },
+    {
+     "id": "P2",
+     "title": "Both photos show an intact plate",
+     "truth": "fight",
+     "got": "fight",
+     "ok": true,
+     "reason": "The buyer's own photo and our dispatch photo both show the item intact; the damage claim is contradicted."
+    },
+    {
+     "id": "P3",
+     "title": "Buyer photo of damage, shop has no photo",
+     "truth": "concede",
+     "got": "concede",
+     "ok": true,
+     "reason": "The buyer's photo shows the damage and the shop has no dispatch photo to counter it."
+    },
+    {
+     "id": "P4",
+     "title": "No buyer photo, shop photo intact",
+     "truth": "fight",
+     "got": "fight",
+     "ok": true,
+     "reason": "Our dispatch photo shows the item intact and the buyer sent no photo of any damage."
+    },
+    {
+     "id": "P5",
+     "title": "Buyer 'photo' is our own listing picture",
+     "truth": "fight",
+     "got": "fight",
+     "ok": true,
+     "reason": "The photo the buyer sent is our listing photo, not a photo of the delivered item."
+    },
+    {
+     "id": "P6",
+     "title": "Damage photo already used on another dispute",
+     "truth": "review",
+     "got": "review",
+     "ok": true,
+     "reason": "The buyer's photo is also attached to order PH-900's dispute. A person has to compare them."
+    },
+    {
+     "id": "P7",
+     "title": "Photo metadata says it was taken before delivery",
+     "truth": "review",
+     "got": "review",
+     "ok": true,
+     "reason": "The buyer's photo is stamped earlier than the delivery. A person has to look."
+    },
+    {
+     "id": "P8",
+     "title": "Buyer photo too blurred to judge",
+     "truth": "review",
+     "got": "review",
+     "ok": true,
+     "reason": "The buyer's photo could not be read with enough confidence. A person has to look."
+    },
+    {
+     "id": "P9",
+     "title": "Wrong colour in the buyer's photo",
+     "truth": "concede",
+     "got": "concede",
+     "ok": true,
+     "reason": "The order is red but the buyer's photo shows blue."
+    },
+    {
+     "id": "P10",
+     "title": "A different object in the buyer's photo",
+     "truth": "concede",
+     "got": "concede",
+     "ok": true,
+     "reason": "The buyer's photo shows a plate but the order is a vase."
+    },
+    {
+     "id": "P11",
+     "title": "We shipped it already cracked",
+     "truth": "concede",
+     "got": "concede",
+     "ok": true,
+     "reason": "Our dispatch photo shows damage already; the claim holds."
+    },
+    {
+     "id": "P12",
+     "title": "Buyer photo is a studio catalogue shot, not ours",
+     "truth": "review",
+     "got": "review",
+     "ok": true,
+     "reason": "The buyer's attachment looks like a stock or screen image, not their own photo. A person has to look."
+    },
+    {
+     "id": "P13",
+     "title": "No photos from anyone",
+     "truth": "review",
+     "got": "review",
+     "ok": true,
+     "reason": "Code cannot inspect the goods; condition claims need photos or a return."
+    },
+    {
+     "id": "P14",
+     "title": "Damage photo with no metadata (EXIF stripped)",
+     "truth": "concede",
+     "got": "concede",
+     "ok": true,
+     "reason": "Transit damage: our dispatch photo shows the item intact, the buyer's photo shows it damaged on arrival. A remedy is owed and the carrier is liable."
+    }
+   ]
+  }
+ },
+ "usage": {
+  "calls": 42,
+  "prompt_tokens": 84619,
+  "completion_tokens": 21005,
+  "failures": 0,
+  "cache_hits": 60
+ }
+}

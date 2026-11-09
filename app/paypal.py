@@ -62,7 +62,7 @@ class PayPal:
         self._token_exp = time.time() + int(body.get("expires_in", 3000))
         return self._token
 
-    def _call(self, method: str, path: str, body: dict | None = None, multipart: dict | None = None, ok=(200, 201, 204)):
+    def _call(self, method: str, path: str, body: dict | None = None, multipart: dict | None = None, ok=(200, 201, 204), files: dict | None = None):
         # One request id for every attempt, so PayPal treats a retried POST as the same request (idempotent).
         headers = {"Authorization": f"Bearer {self.token()}", "PayPal-Request-Id": str(uuid.uuid4())}
         if multipart is None:
@@ -70,8 +70,8 @@ class PayPal:
         for attempt in range(4):  # the sandbox returns 5xx/429 often; back off and retry
             try:
                 if multipart is not None:
-                    files = {"input": (None, json.dumps(multipart), "application/json")}
-                    r = httpx.request(method, self.base + path, headers=headers, files=files, timeout=60)
+                    parts = {"input": (None, json.dumps(multipart), "application/json"), **(files or {})}
+                    r = httpx.request(method, self.base + path, headers=headers, files=parts, timeout=60)
                 else:
                     r = httpx.request(method, self.base + path, headers=headers, json=body, timeout=60)
             except httpx.TransportError:
@@ -181,8 +181,9 @@ class PayPal:
     def show_dispute(self, dispute_id: str) -> dict:
         return self._call("GET", f"/v1/customer/disputes/{dispute_id}")
 
-    def provide_evidence(self, dispute_id: str, evidences: list[dict]) -> dict:
-        return self._call("POST", f"/v1/customer/disputes/{dispute_id}/provide-evidence", multipart={"evidences": evidences})
+    def provide_evidence(self, dispute_id: str, evidences: list[dict], files: dict | None = None) -> dict:
+        """`files` maps a part name to (filename, bytes, content_type); each evidence names its documents by filename."""
+        return self._call("POST", f"/v1/customer/disputes/{dispute_id}/provide-evidence", multipart={"evidences": evidences}, files=files)
 
     def provide_supporting_info(self, dispute_id: str, notes: str) -> dict:
         return self._call("POST", f"/v1/customer/disputes/{dispute_id}/provide-supporting-info", multipart={"notes": notes[:2000]})
