@@ -84,6 +84,23 @@ def _auto_payload():
             "spent_today": warrant.auto_refunded_today(), "killed_at": warrant.state.get("auto", {}).get("killed_at")}
 
 
+@app.get("/api/injection")
+def injection_taxonomy():
+    """The nine rule ids and the near-miss pairs, classified live by the same code that guards the splitter."""
+    from . import injection as inj
+    return {"rules": inj.RULES, "tie_break": inj.TIE_BREAK, "near_miss": inj.near_miss()}
+
+
+class ClassifyIn(BaseModel):
+    text: str
+
+
+@app.post("/api/classify")
+def classify_text(body: ClassifyIn):
+    from . import injection as inj
+    return {"sentences": inj.classify(body.text[:5000])}
+
+
 @app.get("/api/summary")
 def summary():
     return status_mod.summary(list(warrant.state["cases"].values()))

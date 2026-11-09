@@ -170,14 +170,51 @@ function openCase(id) {
   renderCase(false);
 }
 
-function highlightClaim(claim, checked) {
+function highlightClaim(claim, checked, sentences) {
+  // Rule marks from the code classifier: injections struck through, non-injections underlined; exact phrase highlighted.
+  const marks = [];
+  (sentences || []).forEach((x) => x.marks.forEach((m) => marks.push(m)));
+  marks.sort((a, b) => a.start - b.start || b.end - a.end);
+  let out = "", pos = 0;
+  for (const m of marks) {
+    if (m.start < pos || m.end > claim.length) continue;
+    out += esc(claim.slice(pos, m.start));
+    out += `<mark class="${m.kind === "injection" ? "inj" : "ok"} r-${m.rule}" data-rule="${m.rule}" title="${esc(m.rule + " " + m.name + ": " + m.why)}">${esc(claim.slice(m.start, m.end))}</mark>`;
+    pos = m.end;
+  }
+  out += esc(claim.slice(pos));
+  if (marks.length) return out;
   let html = esc(claim);
   (checked || []).filter((c) => c.verdict === "ignored").forEach((c) => {
     const q = esc(c.quote);
-    if (q && html.includes(q)) html = html.replace(q, `<mark title="instruction: ignored">${q}</mark>`);
+    if (q && html.includes(q)) html = html.replace(q, `<mark class="inj" title="instruction: ignored">${q}</mark>`);
   });
   return html;
 }
+
+const RULE_NOTE = { N3: "checked against the shipping record", N4: "counts against the claim", N1: "noted, never obeyed", N2: "recorded, changes nothing", N5: "recorded, changes nothing", I1: "ignored, not evidence", I2: "ignored, not evidence", I3: "ignored, not evidence", I4: "ignored, not evidence" };
+function renderRuleChips(a) {
+  const box = $("#ruleChips");
+  const chips = [];
+  (a?.split?.sentences || []).forEach((x) => x.marks.forEach((m) => chips.push(
+    `<span class="rchip ${m.kind === "injection" ? "inj" : "ok"}" data-rule="${m.rule}" title="${esc(m.why)}"><b>${m.rule} ${esc(m.name)}</b>: "${esc(m.phrase)}" <i>${esc(RULE_NOTE[m.rule] || "")}</i></span>`)));
+  box.innerHTML = chips.join("");
+  box.hidden = !chips.length;
+}
+
+let ruleLegendLoaded = false;
+async function loadRuleLegend() {
+  if (ruleLegendLoaded) return;
+  ruleLegendLoaded = true;
+  try {
+    const t = await api("/api/injection");
+    const ids = Object.entries(t.rules).map(([k, v]) => `<tr class="${v.kind === "injection" ? "inj" : "ok"}"><td><b>${k}</b></td><td>${esc(v.name)}</td><td>${v.kind === "injection" ? "injection: ignored" : "not an injection"}</td><td>${esc(v.text)}</td></tr>`).join("");
+    const pair = (s) => `<div class="nm ${s.injection ? "inj" : "ok"}">"${esc(s.text)}" ${s.marks.map((m) => `<span class="rchip ${m.kind === "injection" ? "inj" : "ok"}"><b>${m.rule}</b></span>`).join("")} <span class="muted">${s.injection ? "injection" : "not an injection"}</span></div>`;
+    const pairs = t.near_miss.map((p) => `<div class="nmpair" data-pair>${pair(p.ok)}${pair(p.bad)}<div class="muted">${esc(p.why)}</div></div>`).join("");
+    $("#ruleLegendBody").innerHTML = `<p><b>Tie-break:</b> ${esc(t.tie_break)}</p><table class="ruletable" id="ruleTable">${ids}</table><h4>Near-miss pairs (classified live by the code)</h4><div id="nearMiss">${pairs}</div>`;
+  } catch (e) { $("#ruleLegendBody").textContent = "could not load: " + e.message; }
+}
+$("#ruleLegend").addEventListener("toggle", (e) => { if (e.target.open) loadRuleLegend(); });
 
 function renderCase(animate) {
   const c = caseObj();
@@ -187,7 +224,8 @@ function renderCase(animate) {
   $("#cOrder").textContent = `${rec.order_ref} · ${rec.buyer.name} · ${rec.items.map((i) => i.name).join(", ")}`;
   $("#cTitle").textContent = `${money(c.amount)} · ${(c.reason || "").replaceAll("_", " ").toLowerCase()}`;
   $("#cIds").innerHTML = `dispute ${esc(c.dispute_id)} · order ${esc(ev.paypal.order_id)} · capture ${esc(ev.paypal.capture_id)} · intake: ${esc(c.intake)}`;
-  $("#cClaim").innerHTML = highlightClaim(c.claim, a?.checked);
+  $("#cClaim").innerHTML = highlightClaim(c.claim, a?.checked, a?.split?.sentences);
+  renderRuleChips(a);
   const review = a?.decision?.action === "review" && c.stage !== "answered";
   $("#respondBtn").disabled = !a || c.stage === "answered" || review;
   $("#respondBtn").textContent = c.stage === "answered" ? "Answered" : review ? "Decide below" : a?.decision?.action === "fight" ? "Send evidence to PayPal" : a ? (a.decision.action === "partial" ? "Partial refund via PayPal" : "Refund via PayPal") : "Send answer to PayPal";
