@@ -143,3 +143,18 @@ button.kill { background: #b42318; color: #fff; border-color: #b42318; padding: 
 .pform-actions { grid-column: 1 / -1; display: flex; gap: 12px; align-items: center; }
 .seg { display: inline-flex; gap: 0; } .seg button { border-radius: 0; padding: 5px 11px; font-size: 12.5px; } .seg button:first-child { border-radius: 7px 0 0 7px; } .seg button:last-child { border-radius: 0 7px 7px 0; }
 .seg button.on { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+.photopanel { margin-top: 14px; border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; background: #fff; }
+.photopanel h3 { margin: 0 0 8px; font-size: 14px; }
+.phrow { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.ph { border: 1px solid var(--line); border-radius: 8px; padding: 8px; font-size: 12.5px; }
+.ph img { width: 100%; height: 170px; object-fit: cover; border-radius: 6px; display: block; margin: 4px 0; }
+.phrole { font: 600 11.5px "JetBrains Mono", monospace; text-transform: uppercase; }
+.phmeta { font-size: 11px; word-break: break-all; }
+.phchecks { margin-top: 10px; display: grid; gap: 5px; }
+.phchk { font-size: 13px; padding: 6px 9px; border-radius: 6px; border-left: 4px solid #8a93a3; background: #f6f7f9; }
+.phchk.ok, .phchk.good { border-left-color: #12805c; }
+.phchk.bad { border-left-color: #c4320a; }
+.phchk.warn { border-left-color: #b54708; }
+.phtag { font: 600 10.5px "JetBrains Mono", monospace; text-transform: uppercase; margin-right: 4px; }
+.carrierNote { margin-top: 10px; padding: 8px 10px; border-radius: 8px; background: #fff4e5; border: 1px solid #f0c27a; font-size: 13px; }

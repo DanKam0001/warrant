@@ -217,7 +217,33 @@ function evidenceItems(a, ev) {
   return { items: [...items.entries()], links };
 }
 
+const ROLE_LABEL = { listing: "Our listing photo", outbound: "Our dispatch photo", buyer: "Buyer's photo" };
+const CHK_CLASS = { ok: "ok", supports: "bad", contradicts: "good", flag: "warn", info: "info", fail: "bad" };
+
+function renderPhotos(a, ev) {
+  const box = $("#photoPanel");
+  const st = (a?.checked || []).find((c) => c.photo_report);
+  if (!st) { box.hidden = true; box.innerHTML = ""; return; }
+  const r = st.photo_report;
+  const fig = (role) => {
+    const p = r.photos[role];
+    if (!p) return `<div class="ph none"><div class="phrole">${ROLE_LABEL[role]}</div><div class="muted">no photo</div></div>`;
+    const o = p.obs;
+    const seen = !o ? "not described" : o.error ? "could not be described" : [`${o.main_colour || "?"} ${o.object || "?"}`, o.visible_damage ? `damage visible (${o.damage_kind || "unspecified"})` : "no damage visible", o.legible ? "" : "not legible", o.catalogue_style ? "catalogue-style shot" : "", o.looks_like_screen ? "looks like a screen" : "", `confidence ${o.confidence}`].filter(Boolean).join(", ");
+    return `<div class="ph" data-role="${role}"><div class="phrole">${ROLE_LABEL[role]}</div>${p.url ? `<img src="${esc(p.url)}" alt="${ROLE_LABEL[role]}">` : ""}
+      <div class="phseen"><b>Model saw:</b> ${esc(seen)}</div>
+      <div class="phmeta muted">hash ${esc(p.dhash || "?")}${p.exif_at ? " · taken " + esc(p.exif_at.replace("T", " ")) : " · no capture time"}</div></div>`;
+  };
+  box.hidden = false;
+  box.innerHTML = `<h3>Photos: what the model saw, what the code decided</h3>
+    <div class="phrow">${["listing", "outbound", "buyer"].map(fig).join("")}</div>
+    <div class="phchecks">${r.checks.map((k) => `<div class="phchk ${CHK_CLASS[k.status] || "info"}" data-check="${esc(k.id)}"><span class="phtag">${esc(k.status)}</span> <b>${esc(k.title)}</b> ${esc(k.text)}</div>`).join("")}</div>
+    ${st.carrier_claim ? `<div class="carrierNote"><b>Carrier claim:</b> the item left us intact, so the carrier is liable. Refund the buyer and file a claim with ${esc(ev?.shipment?.carrier || "the carrier")} using our dispatch photo.</div>` : ""}
+    <div class="muted small">The model only describes each picture. The checks above are plain code.</div>`;
+}
+
 function renderStatements(a, ev, animate) {
+  renderPhotos(a, ev);
   const { items, links } = evidenceItems(a, ev);
   $("#evid").innerHTML = items.map(([k, e]) => `<div class="evi" data-k="${esc(k)}"><div class="k">${esc(e.kind.replaceAll("_", " "))}${e.kind === "carrier_scan" || e.kind === "packing_record" ? ' <span class="muted">(shop fixture)</span>' : ""}</div><div class="r">${esc(e.ref)}</div><div class="d">${esc(e.detail)}</div></div>`).join("");
   if (!a) {

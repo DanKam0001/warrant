@@ -112,4 +112,27 @@ DEMO = [
             "scans": [{"status": "DELIVERED", "at": "2026-10-31T11:20:00Z", "postcode": "30309"}],
         },
     },
+    {
+        "key": "photos",
+        "optional": True,  # seeded only with /api/reset?photos=true, so the five-case demo queue is unchanged
+        "label": "Smashed plate: our packing photo shows it intact, the buyer's photo shows it in pieces",
+        "reason_kind": "not_as_described",
+        "claim": "The plate arrived smashed. Photo attached.",
+        "record": _record(
+            "KK-2046",
+            {"name": "Sam Rivera", "email": "sam.rivera@example.com"},
+            [{"sku": "PLATE-W", "name": "Embossed white dinner plate", "qty": 1, "unit_price": 60.00}],
+            "94110",
+            {"method": "account_login+3ds", "by": "Sam Rivera", "at": "2026-10-20T10:02:00Z", "ip": "203.0.113.55"},
+        ),
+        "shipment": {
+            "carrier": "UPS", "tracking_number": "1Z999AA10123456792", "shipped_skus": ["PLATE-W"],
+            "scans": [{"status": "IN_TRANSIT", "at": "2026-10-22T09:00:00Z", "postcode": "94107"},
+                      {"status": "DELIVERED", "at": "2026-10-31T11:20:00Z", "postcode": "94110", "signed_by": "S. RIVERA"}],
+        },
+        "condition": {
+            "photos": {"listing": "plate_intact.jpg", "outbound": "derived/plate_ship.jpg", "buyer": "derived/plate_dmg_after.jpg"},
+            "outbound_taken_at": "2026-10-21T16:30:00Z",
+        },
+    },
 ]

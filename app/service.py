@@ -119,13 +119,15 @@ class Warrant:
             self.state = {"orders": {}, "cases": {}, "events": [], "seeding": None, "auto": {"enabled": False}}  # a fresh demo also clears an old kill-switch note
             self.save()
 
-    def seed_demo(self, keys: list[str] | None = None) -> list[dict]:
+    def seed_demo(self, keys: list[str] | None = None, photos: bool = False) -> list[dict]:
         """Create each demo order for real in the sandbox, register its tracking, then open a chargeback on it."""
         made = []
         with self.lock:
             self.state["seeding"] = {"started": now(), "done": False}
         for sc in DEMO:
             if keys and sc["key"] not in keys:
+                continue
+            if sc.get("optional") and not photos and not (keys and sc["key"] in keys):
                 continue
             rec = sc["record"]
             h = record_hash(rec)
@@ -139,6 +141,8 @@ class Warrant:
             ev = make_case_evidence(rec, ship, paypal={
                 "order_id": o["order_id"], "capture_id": o["capture_id"], "captured_amount": float(o["amount"]), "custom_id": h,
             })
+            if sc.get("condition"):
+                ev["condition"] = copy.deepcopy(sc["condition"])
             dispute_id = self.pp.open_sandbox_chargeback(o["capture_id"], amount, sc["reason_kind"], sc["claim"])
             with self.lock:
                 self.state["orders"][o["capture_id"]] = {"scenario": sc["key"], "label": sc["label"], "evidence": ev, "created": now(), "opened_dispute": dispute_id}

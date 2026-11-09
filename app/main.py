@@ -127,9 +127,9 @@ def kill_auto():
     return _auto_payload()
 
 
-def _seed():
+def _seed(photos: bool = False):
     try:
-        warrant.seed_demo()
+        warrant.seed_demo(photos=photos)
         for _ in range(60):  # chargebacks usually reach PayPal in 20-40 s, but the sandbox has taken minutes
             time.sleep(10)
             try:
@@ -156,12 +156,12 @@ def _seed():
 
 
 @app.post("/api/reset")
-def reset(seed: bool = True):
+def reset(seed: bool = True, photos: bool = False):
     if not _busy.acquire(blocking=False):
         return {"ok": True, "seeding": "already running"}  # a second click while seeding is harmless
     warrant.reset()
     if seed and warrant.pp.configured:
-        threading.Thread(target=_seed, daemon=True).start()
+        threading.Thread(target=_seed, args=(photos,), daemon=True).start()
     else:
         _busy.release()
     return {"ok": True, "seeding": seed and warrant.pp.configured}
@@ -243,6 +243,7 @@ async def webhook(request: Request):
 
 
 app.mount("/static", StaticFiles(directory=ROOT / "static"), name="static")
+app.mount("/photos", StaticFiles(directory=ROOT / "data" / "photos"), name="photos")
 
 
 @app.get("/")
