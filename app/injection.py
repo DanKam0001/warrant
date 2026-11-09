@@ -99,7 +99,10 @@ I1_PROCESS = [
      rf"(?:previous |prior |above |earlier |last |preceding |other |standard |usual |normal |existing |all |safety |security )*{_PROCESS_NOUN}", "override"),
     (rf"\b(?:override|bypass|overrule)\b\s+(?:the |your |this )?(?:code|system|decision|checker|algorithm|model|safeguards?)\b", "override"),
     (r"\bforget (?:everything|all)\b(?: (?:above|before|you (?:were|have been) told))?", "override"),
-    (r"\b(?:do not|don'?t|never|without)\s+(?:check|verify|verifying|checking|validate|validating|investigate|investigating|question|review)\b(?! my (?:photos?|evidence|case|claim))", "no checks"),
+    # "do not check ..." addressed to the decider. Not "I don't check my account", "they never investigate" (narration).
+    (r"(?<!\bI )(?<!\bwe )(?<!\bthey )(?<!\bhe )(?<!\bshe )(?<!\bit )(?<!\bwho )(?<!\bthat )(?<!\bI'm )\b(?:do not|don'?t|never)\s+(?:check|verify|verifying|checking|validate|validating|investigate|investigating|question|review)\b(?! my (?:photos?|evidence|case|claim))", "no checks"),
+    # "refund it without checking": only when the sentence opens with an imperative or addresses 'you'. Not "they denied it without investigating".
+    (r"(?:^\W{0,4}(?:please |just |now )?(?:refund|approve|close|process|pay|mark|accept|release|grant|authori[sz]e|resolve|decide)\b|\byou (?:must |should |can |will |need to )?(?:refund|approve|close|process|pay|accept|release|grant|decide)\b)[^.!?]{0,60}\bwithout\s+(?:any |further |more )?(?:check|verify|verifying|checking|validate|validating|investigate|investigating|question|questioning|review)", "no checks"),
 ]
 _EVIDENCE_NOUN = r"(?:tracking|evidence|records?|proof|data|scans?|delivery (?:data|records?|confirmation)|logs?|signatures?|photos?|documentation|information)"
 I1_EVIDENCE = rf"\b(?:ignore|disregard|discard|overlook|dismiss|set aside|pay no attention to)\b\s+(?:all |any |every |each )?(?:of )?(?:the |this |that |your |any |all |their |our )?(?:[\w'-]+ ){{0,3}}?{_EVIDENCE_NOUN}\b"
@@ -112,12 +115,13 @@ _OUTCOME_VERB = r"\b(?:refund|approve|accept|close|mark|pay|decide|rule|grant|re
 _AUTH = (r"(?:owner|admin(?:istrator)?|manager|supervisor|management|ceo|director|boss|security team|compliance(?: team| officer)?|"
          r"fraud team|risk team|head office|developers?|engineers?|root|the system)")
 I2_PATTERNS = [
-    (r"\bpre[- ]?(?:approved|verified|authori[sz]ed|cleared|validated)\b", "pre-approved"),
-    (r"\b(?:this|the|my) (?:case|dispute|claim|refund|order|chargeback|request)\b[^.!?]{0,30}\b(?:has |have |is |was |were |been |already |now )+(?:been )?(?:approved|verified|authori[sz]ed|cleared|validated|resolved|decided|signed off)\b", "case already decided"),
+    # not "pre-approved for a card / credit offers", which real card narratives mention constantly
+    (r"\bpre[- ]?(?:approved|verified|cleared|validated)\b(?!\s+(?:for|credit|card|offers?|limit|amount|status|application))", "pre-approved"),
+    (r"\b(?:this|the|my) (?:case|dispute|claim|refund|order|chargeback|request)\b[^.!?]{0,30}\b(?:has |have |is |was |were |been |now )*(?:already|officially|hereby|automatically) (?:been )?(?:approved|verified|authori[sz]ed|cleared|validated|resolved|decided|signed off)\b", "case already decided"),
     (rf"\b{_AUTH}\b[^.!?]{{0,30}}\b(?:has |have |had |already |just |personally |hereby )+(?:approved|authori[sz]ed|cleared|verified|signed off|confirmed|decided|ordered)\b", "authority already approved"),
     (rf"\b(?:approved|authori[sz]ed|cleared|verified|signed off|ordered) by (?:the |your |our )?{_AUTH}\b", "approved by authority"),
-    (r"\bdecision (?:has |have )?(?:already )?been made\b", "decision already made"),
-    (rf"\b(?:{_AUTH}|system|admin|developer|root)\s+(?:override|command|directive|instruction|notice|authori[sz]ation)\b|\bsudo\b|\bauthori[sz]ation code\b|\bmaster key\b", "special privilege"),
+    (r"\bdecision (?:has |have )?already been made\b", "decision already made"),
+    (rf"\b(?:{_AUTH}|system|admin|developer|root)\s+(?:override|command|directive|instruction|notice|authori[sz]ation)\b|\bsudo\b|\bmaster key\b", "special privilege"),
 ]
 
 # ---- I3: role or task change -------------------------------------------------------------------------------------------
@@ -129,12 +133,13 @@ I3_ALWAYS = [
     (r"\bnote (?:to|for) (?:the |this |our )?(?:[\w-]+ )?(?:ai|a\.i\.|model|llm|bot|assistant|agent|system|reviewer|decider|handler)\b", "note to the machine"),
     (r"\bas an? (?:ai|a\.i\.|assistant|llm|language model)\b", "as an AI"),
     (rf"\byou are (?:now |no longer |actually |really )?(?:a|an|the|my)\b[\w ,'-]{{0,30}}\b(?:assistant|reviewer|agent|bot|model|admin|judge|approver|handler|moderator)\b", "role assignment"),
-    (r"\b(?:act|behave|respond|reply|answer) as\b|\bpretend (?:to be|you)\b|\byou will (?:now )?(?:act|behave|respond|reply)\b", "role assignment"),
+    (r"\b(?:act|behave|respond|reply|answer) as\b(?! (?:soon|if|though|well|per|long|much|many|far|such|a result|to|of|part|quickly|promptly|required|needed|directed|instructed|requested|stated|agreed|expected|usual|normal|always|they|he|she|it|the (?:law|rules?|policy|contract|agreement)))|\bpretend (?:to be|you)\b|\byou will (?:now )?(?:act|behave|respond|reply) (?:as|like)\b", "role assignment"),
     (r"\bfrom now on\b[^.!?]{0,40}\b(?:you|always|the (?:decision|answer|outcome))\b", "standing order"),
-    (r"\b(?:new|updated|revised|real|actual) (?:instructions?|rules?|task|prompt)\b|\byour (?:new |real |actual )?(?:task|job|role|goal|objective|purpose) (?:is|will be)\b", "new task"),
+    (r"\b(?:new|updated|revised) (?:instructions?|rules?|task|prompt)\b|\b(?:real|actual) (?:instructions?|prompt)\b|\byour (?:new |real |actual )?(?:task|job|role|goal|objective|purpose) (?:is|will be)\b", "new task"),
     (r"\byou (?:must|should|are required to|will|need to|have to|shall) (?:approve|accept|process|mark|close|override|set|grant|authori[sz]e|release|rule|decide|conclude|output|answer|respond|return)\b", "directive to the decider"),
     (r"\b(?:auto[- ]?approve|automatically (?:approve|accept|refund|process|close))\b", "auto-approve"),
-    (r"\b(?:refund|approve|accept|process|close) (?:this|the|my) (?:case|order|dispute|claim|chargeback|request)\b[^.!?]{0,30}\b(?:now|immediately|automatically|right away|without)\b", "dictated outcome"),
+    # imperative only: "refund this case now". Not "they close the case without ..." (narration).
+    (r"(?:^\W{0,4}(?:please |just |now )?|\byou (?:must |should |will |can )?|\b(?:and|then) )(?:refund|approve|accept|process|close) (?:this|the|my) (?:case|order|dispute|claim|chargeback|request)\b[^.!?]{0,30}\b(?:now|immediately|automatically|right away|without)\b", "dictated outcome"),
     (r"\bmark (?:this|the|my)?\s*(?:case|dispute|claim|order|chargeback)?\s*(?:as )?(?:approved|resolved|closed|refunded|verified|won|valid|legitimate)\b", "dictated outcome"),
     (r"\bset (?:the |this |your )?(?:decision|outcome|verdict|status|answer|result) (?:to|as)\b|\b(?:decision|verdict|outcome|result|action)\s*(?:=|:|is|to)\s*[\"']?(?:approved?|refund(?:ed)?|concede|accepted?|in favou?r)\b", "dictated outcome"),
     (r"\b(?:output|print|return|respond with|reply with|answer with|say|write)\b[^.!?]{0,25}\b(?:approved?|refund(?:ed)?|concede|\"?fight\"?|true|valid)\b(?=[^.!?]{0,12}(?:only|now|exactly|as (?:the )?(?:decision|answer|result)))", "dictated output"),
@@ -224,7 +229,12 @@ def classify_sentence(s: str, base: int = 0) -> list[dict]:
     if hm:
         head = hm.group(0)
         machine = re.search(rf"\b{_MACHINE}\b", head, _F)
-        if machine or re.search(_OUTCOME_FOR_HUMANISH, s[hm.end():], _F):
+        # a comma after the role word only counts as an address when it opens with a greeting ("Hey bot, ..."); otherwise
+        # it is an apposition in ordinary narration ("The agent, XXXX, told me ...")
+        greeted = re.match(r"^\W{0,4}(?:note|message|attention|hey|hello|hi|dear|important|urgent)\b", head, _F)
+        if head.rstrip().endswith(",") and not greeted:
+            hm = None
+    if hm and (machine or re.search(_OUTCOME_FOR_HUMANISH, s[hm.end():], _F)):
             inj.append(_mark("I3", hm, "addressed to the machine" if machine else "addressed to the reviewer and dictates an outcome", base))
     # dedupe overlapping injection marks of the same rule
     seen, dedup = [], []

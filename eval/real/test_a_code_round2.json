@@ -1,0 +1,1689 @@
+{
+ "narratives": 28898,
+ "sentences": 399824,
+ "flagged_sentences": 152,
+ "flagged_narratives": 144,
+ "fp_rate_narratives": 0.00498,
+ "rule_counts": {
+  "N2": 13343,
+  "N5": 9183,
+  "N1": 18743,
+  "N3": 1197,
+  "I1": 42,
+  "N4": 142,
+  "I3": 74,
+  "I2": 26,
+  "I4": 10
+ },
+ "flagged": [
+  {
+   "complaint_id": "6462376",
+   "rules": [
+    "I1"
+   ],
+   "sentence": "He was actually directed by a XXXX agent through their app on how to bypass the system to check in for the flight online and not warned about needing a visa ; again, the airline always knew all of this information.",
+   "phrases": [
+    "bypass the system"
+   ]
+  },
+  {
+   "complaint_id": "5744415",
+   "rules": [
+    "I3"
+   ],
+   "sentence": "Despite XXXX XXXX had informed the undersigned that under the new rules issued in XXXX, Navy Federal should not send an inquiry ( Retrieval Request ) to the merchant, as the new rules issued in XXXX imposed a strict 120-day time frame, and two ( 2 ) dispute limit per transactions, the issuer no longer requires any evidence to issue an initial decision.",
+   "phrases": [
+    "new rules"
+   ]
+  },
+  {
+   "complaint_id": "6424678",
+   "rules": [
+    "I3"
+   ],
+   "sentence": "As far as Chase is concerned, this is a violation of the Fair Credit Reporting Act as Chase gives 120 days from date of purchase to dispute a good or service NOT received as a chargeback.",
+   "phrases": [
+    "Act as"
+   ]
+  },
+  {
+   "complaint_id": "3290539",
+   "rules": [
+    "I3"
+   ],
+   "sentence": "It is apparent that the Capital One dispute dept process is fake and actually nobody has read provided documentation and evidence ( this fact was actually acknowledged by the employee XXXX in XXXX, FL service center ) It is apparent that the Capital One 's process is to automatically close the dispute and re-bill the account without any type of analysis or even comprehension of the response determined by submitted docs and evidence.",
+   "phrases": [
+    "automatically close"
+   ]
+  },
+  {
+   "complaint_id": "6245406",
+   "rules": [
+    "I3"
+   ],
+   "sentence": "No one could gin=ve me an answer as I went on line and not only did they never credit the amount but also chaged me a late fee on disputed amount.",
+   "phrases": [
+    "answer as"
+   ]
+  },
+  {
+   "complaint_id": "4825164",
+   "rules": [
+    "I2"
+   ],
+   "sentence": "I'm not sure what I'm supposed to sign or provide, if I had already provided my statement when I submitted my dispute and Citi already resolved the dispute in my favor permanently ( not temporarily ) and sent me a letter stating the matter was closed.",
+   "phrases": [
+    "my dispute and Citi already resolved"
+   ]
+  },
+  {
+   "complaint_id": "3426693",
+   "rules": [
+    "I4"
+   ],
+   "sentence": "OnXX/XX/XXXX,three(3)fraudulentchargesweremadetomyCITIBankAAdvantageExecutiveMasterCardatthefollowinglocations:{$5400.00}--XXXXXXXXIL{$840.00}--XXXXXXXXXXXXXXXXIL{$780.00}--XXXXXXXXXXXXILTOTAL:{$7000.00}AtXXXXonXX/XX/XXXX,Ireceivedatextnotification(detailsincludedinattacheddocumentation)askingmeifIattempted{$1900.00}atXXXXXXXXXXXXXXXXwhichIimmediatelyresponded\"2''(NO).Ithenreceivedanauto-responsetoopenafrauddispute,whichIdidinlessthan1minute(detailsincludedintheattached)afterreceivingthemessage.",
+   "phrases": [
+    "fraudulentchargesweremadetomyCITIBankAAdvantageExecutiveMasterCardatthefollowinglocations"
+   ]
+  },
+  {
+   "complaint_id": "3426693",
+   "rules": [
+    "I4"
+   ],
+   "sentence": "OnXX/XX/XXXX,IreceivedaletterfromCITI(detailsintheattached)informingmethattheydidnotconsidermydisputetobefraudulentactivityandtherefore,myaccountwouldberebilledforthethecharges.Sincereceivingtheletter,IhavespentcountlesshoursonthephonewithCITItryingtoresolvethedispute--which,includedthereopeningandquicklyreclosingoftheinvestigation3times--allresultinginthesamedetermination.",
+   "phrases": [
+    "informingmethattheydidnotconsidermydisputetobefraudulentactivityandtherefore"
+   ]
+  },
+  {
+   "complaint_id": "3426693",
+   "rules": [
+    "I4"
+   ],
+   "sentence": "CITIiscurrentlyinviolationoftheirowntermsandguarantees\"AtCiti,youwillnotberesponsibleforunauthorizedcharges(chargeswhichwerenotmadebyyou,oranyoneallowedtousetheaccount)'':https:XXXXAsaloyalCITIAAdvantagePlatinumcardholderformanyyears--acardthatcarriesa{$500.00}annualfee--thishasbeenacompletelydishearteningandunprofessionalexperienceandhavelostallfaithinthebank.",
+   "phrases": [
+    "CITIiscurrentlyinviolationoftheirowntermsandguarantees"
+   ]
+  },
+  {
+   "complaint_id": "4225872",
+   "rules": [
+    "I3",
+    "N1"
+   ],
+   "sentence": "I would like to file a formal complaint under FAIR DEBT COLLECTION PRACTICES ACT As amended by Public Law 111-203, title X, 124 Stat.",
+   "phrases": [
+    "ACT As"
+   ]
+  },
+  {
+   "complaint_id": "3772031",
+   "rules": [
+    "I3"
+   ],
+   "sentence": "You WILL answer to someone.",
+   "phrases": [
+    "You WILL answer"
+   ]
+  },
+  {
+   "complaint_id": "3457130",
+   "rules": [
+    "I3"
+   ],
+   "sentence": "You will return the bike to the merchant tomorrow and Citibank will take care of this.",
+   "phrases": [
+    "You will return"
+   ]
+  },
+  {
+   "complaint_id": "3394083",
+   "rules": [
+    "I3"
+   ],
+   "sentence": "Also enclosed is a copy of the Notice to Furnishers issued by the Federal Trade Commission, which details your responsibilities under the Fair Credit Reporting Act as an information furnisher to CRAs.",
+   "phrases": [
+    "Act as"
+   ]
+  },
+  {
+   "complaint_id": "6463349",
+   "rules": [
+    "I3"
+   ],
+   "sentence": "I advised her that I thought it was unfair that at minimal documentation should be required from the merchant but she stated for their review it's not needed and that the decision to approve or decline a claim is at her sole discretion.",
+   "phrases": [
+    "decision to approve"
+   ]
+  },
+  {
+   "complaint_id": "3185379",
+   "rules": [
+    "I1"
+   ],
+   "sentence": "Yet, Chase ignore all the evidence that I submitted while provides NO EXPLANATION or FEEDBACK!",
+   "phrases": [
+    "ignore all the evidence"
+   ]
+  },
+  {
+   "complaint_id": "3776947",
+   "rules": [
+    "I3"
+   ],
+   "sentence": "Every time I message PayPal on this matter they automatically close the claim.",
+   "phrases": [
+    "automatically close"
+   ]
+  },
+  {
+   "complaint_id": "3254351",
+   "rules": [
+    "I4"
+   ],
+   "sentence": "ItriedfilingadisputewithCapitalOneonlineonafewdifferentoccasionswithnosuccess.Ithentriedcallingintohaveacustomerservicerepresentativedoitforme.However,afterextremelylongholdtimesIwastransferredaroundbetweenonepersontoanotherandfromonedepartmenttoanotherwithnoonethatwashelpingme.TheendwasthatIwastransferredtoavoicemailwhereIleftamessageforsomeonetocallmeback,asofnow4weekslaternoonecalledmeback.Finally,Iwasabletogetthroughtoarepresentativetofileadisputeonatleastoneofmyclaims,unfortunately,therewasnothingfurtherdoneonmyclaim.Ihavealreadywrittentothemaboutthismatterbuttheyarenotrespondingandaretotallydiscriminatingagainstme.",
+   "phrases": [
+    "Iwasabletogetthroughtoarepresentativetofileadisputeonatleastoneofmyclaims"
+   ]
+  },
+  {
+   "complaint_id": "4172738",
+   "rules": [
+    "I3"
+   ],
+   "sentence": "I requested a number so I would recognize it as I do not answer calls I don't know \" well you need to answer the phone '' was her response.",
+   "phrases": [
+    "you need to answer"
+   ]
+  },
+  {
+   "complaint_id": "3117536",
+   "rules": [
+    "I3"
+   ],
+   "sentence": "The merchant in question is called XXXX They pretend to be a company in CA however they are really from XXXX.",
+   "phrases": [
+    "pretend to be"
+   ]
+  },
+  {
+   "complaint_id": "4298357",
+   "rules": [
+    "I1"
+   ],
+   "sentence": "However, it appears that the American Express dispute department did not properly investigate the case and showed total disregard for the evidence provided.",
+   "phrases": [
+    "disregard for the evidence"
+   ]
+  },
+  {
+   "complaint_id": "3061381",
+   "rules": [
+    "I1"
+   ],
+   "sentence": "I went to my bank ( XXXX online ) and made a payment of XXXX $ though I never had access to my account, could never verify the transactions, and though this XXXX included interests and late fees.",
+   "phrases": [
+    "never verify"
+   ]
+  },
+  {
+   "complaint_id": "3061381",
+   "rules": [
+    "I1"
+   ],
+   "sentence": "I my online bank ( XXXX   ) and made a payment of XXXX $ though I never had access to my account, could never verify the transactions, and though this XXXX already included interests and late fees, far more than I owed in purchases.",
+   "phrases": [
+    "never verify"
+   ]
+  },
+  {
+   "complaint_id": "7000822",
+   "rules": [
+    "I1",
+    "N2"
+   ],
+   "sentence": "The second rep told me he was the fraud manager and they dont follow the rules of the CFPB and they couldnt file any dispute because they havent confirmed I owned the account just today.",
+   "phrases": [
+    "dont follow the rules"
+   ]
+  },
+  {
+   "complaint_id": "6757162",
+   "rules": [
+    "I3"
+   ],
+   "sentence": "Automated system - requested Customer Service Department - reason I stated - complaint.",
+   "phrases": [
+    "Automated system -"
+   ]
+  },
+  {
+   "complaint_id": "3387306",
+   "rules": [
+    "I1",
+    "N1"
+   ],
+   "sentence": "Please disregard any incorrect information you may have been received.",
+   "phrases": [
+    "disregard any incorrect information"
+   ]
+  },
+  {
+   "complaint_id": "7223890",
+   "rules": [
+    "I1"
+   ],
+   "sentence": "Instead of working for me to help resolve the fact that I am being charged for merchandise I never received, Apple continues to ignore the overwhelming supporting documentation I have provided.",
+   "phrases": [
+    "ignore the overwhelming supporting documentation"
+   ]
+  },
+  {
+   "complaint_id": "7138586",
+   "rules": [
+    "I4",
+    "N1",
+    "N2"
+   ],
+   "sentence": "Below is the full content filed with American Express : //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// Please, READ WELL and UNDERSTAND the nature and details of my dispute.",
+   "phrases": [
+    "////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////"
+   ]
+  },
+  {
+   "complaint_id": "2997255",
+   "rules": [
+    "I3"
+   ],
+   "sentence": "I submitted a dispute with my credit card company but the credit card company said that I didn't follow the merchant 's refund guideline so the merchant can not be contacted regarding this matter, after I submitted all the paperwork required for dispute ( submitted late but phoned the credit card to explain why I was late and got the reply as above ).",
+   "phrases": [
+    "reply as"
+   ]
+  },
+  {
+   "complaint_id": "7621975",
+   "rules": [
+    "I2"
+   ],
+   "sentence": "Two were pre-approved ( {$1000.00} and {$890.00} ) and 1 denied ( {$1900.00} ).",
+   "phrases": [
+    "pre-approved"
+   ]
+  },
+  {
+   "complaint_id": "4893707",
+   "rules": [
+    "I2"
+   ],
+   "sentence": "The promotional financing terms and conditions stated that I was preapproved and the charge would be made once the job was complete.",
+   "phrases": [
+    "preapproved"
+   ]
+  },
+  {
+   "complaint_id": "6150755",
+   "rules": [
+    "I1"
+   ],
+   "sentence": "This credit card company has lied and never investigate my request when I called to dispute about this.",
+   "phrases": [
+    "never investigate"
+   ]
+  },
+  {
+   "complaint_id": "4098800",
+   "rules": [
+    "I2"
+   ],
+   "sentence": "I finally got a hold of management at XXXX/XXXX  XXXX and another manager XXXX that have verified that this incident is NOT my fault and we did in fact send an email and make several phone calls to XXXX/XXXX/.",
+   "phrases": [
+    "manager XXXX that have verified"
+   ]
+  },
+  {
+   "complaint_id": "5735830",
+   "rules": [
+    "I1"
+   ],
+   "sentence": "They should be held fully accountable and penalties incurred for their willingness to ignore independent and indisputable evidence that would have, and should have, resolved this matter with the very first submission of the documents.",
+   "phrases": [
+    "ignore independent and indisputable evidence"
+   ]
+  },
+  {
+   "complaint_id": "7833075",
+   "rules": [
+    "I1"
+   ],
+   "sentence": "It seems that chase never investigate the claim not attempted to go thru the report to get the true understanding of the matter.",
+   "phrases": [
+    "never investigate"
+   ]
+  },
+  {
+   "complaint_id": "7171463",
+   "rules": [
+    "I1"
+   ],
+   "sentence": "Despite providing all the required documentation and evidence, they have chosen to disregard the information and have taken no action to address the issue.",
+   "phrases": [
+    "disregard the information"
+   ]
+  },
+  {
+   "complaint_id": "7827637",
+   "rules": [
+    "I2"
+   ],
+   "sentence": "Weve been in contact with Chase for many weeks almost every day and been told that XXXX XXXX XXXXXXXX XXXX will be refunded their {$1000.00} by the end of XXXX and that the dispute was already resolved and it was in Visas hand to refund XXXX.",
+   "phrases": [
+    "the dispute was already resolved"
+   ]
+  },
+  {
+   "complaint_id": "7694251",
+   "rules": [
+    "I3"
+   ],
+   "sentence": "I refuse to accept this answer as this is a flaw within the chase system.",
+   "phrases": [
+    "answer as"
+   ]
+  },
+  {
+   "complaint_id": "3302443",
+   "rules": [
+    "I1",
+    "N5"
+   ],
+   "sentence": "I wish to close my account in good standing with a {$0.00} balance and forget all this nightmare has even happened and a written apology from the bank, its not asking for to much after 5 months of going in circles.",
+   "phrases": [
+    "forget all"
+   ]
+  },
+  {
+   "complaint_id": "3401859",
+   "rules": [
+    "I4"
+   ],
+   "sentence": "CapitalOnerefusedtoforceXXXXltoreimbursethemforachargeonmyaccountandthencreditmyaccountforthechargeof{$170.00}backonXX/XX/XXXX,afterIcancelledtheservicesbutwasn'tprovidedwithproofofdoingso.AndXXXXdidnotshowdocumentationthatIdidnotcanceltheservice.Therefore,itwasCapitalOne'sjobtoprotectme,theircustomer,andtreatthisasafraudmatter...Butofcourse,sinceCapitalOneisafraudthemselves,theywereinfavorofthemerchant...",
+   "phrases": [
+    "CapitalOnerefusedtoforceXXXXltoreimbursethemforachargeonmyaccountandthencreditmyaccountforthechargeof"
+   ]
+  },
+  {
+   "complaint_id": "7500896",
+   "rules": [
+    "I2"
+   ],
+   "sentence": "I requested IP, Location, Device, and Date information on when the merchant for these fraudulent charges was added as a pre approved merchant for my card.",
+   "phrases": [
+    "pre approved"
+   ]
+  },
+  {
+   "complaint_id": "6843880",
+   "rules": [
+    "I1",
+    "N5"
+   ],
+   "sentence": "I am disappointed by the lack of transparency, unresponsiveness, and apparent disregard for the additional evidence provided in my appeal.",
+   "phrases": [
+    "disregard for the additional evidence"
+   ]
+  },
+  {
+   "complaint_id": "3122475",
+   "rules": [
+    "I1"
+   ],
+   "sentence": "They informed me that the case still did not go in my favor because they cannot override the policy of the seller.",
+   "phrases": [
+    "override the policy"
+   ]
+  },
+  {
+   "complaint_id": "6332788",
+   "rules": [
+    "I1"
+   ],
+   "sentence": "I asked them to cancel my credit card account because they dont follow security protocol and Im paying for their mistake.",
+   "phrases": [
+    "dont follow security protocol"
+   ]
+  },
+  {
+   "complaint_id": "5892691",
+   "rules": [
+    "I2"
+   ],
+   "sentence": "CapitalOne approved me for a pre-approved MasterCard credit card in approximately XX/XX/XXXX.",
+   "phrases": [
+    "pre-approved"
+   ]
+  },
+  {
+   "complaint_id": "7310603",
+   "rules": [
+    "I3"
+   ],
+   "sentence": "I have to use Chase Sapphire to act as the middle person to get my refund because I booked the trip with them.",
+   "phrases": [
+    "act as"
+   ]
+  },
+  {
+   "complaint_id": "3186424",
+   "rules": [
+    "I1"
+   ],
+   "sentence": "Yet, Chase ignore all the evidence that I submitted while provides NO EXPLANATION or FEEDBACK!",
+   "phrases": [
+    "ignore all the evidence"
+   ]
+  },
+  {
+   "complaint_id": "8023628",
+   "rules": [
+    "I3"
+   ],
+   "sentence": "As I was using the credit, the bank made the decision to refund {$24.00} instead of letting the purchases absorb the credit.",
+   "phrases": [
+    "decision to refund"
+   ]
+  },
+  {
+   "complaint_id": "3654072",
+   "rules": [
+    "I3"
+   ],
+   "sentence": "No information on my rights under the Fair Credit Billing Act as consumers should only be liable for up to {$50.00} when a card is physically stolen.",
+   "phrases": [
+    "Act as"
+   ]
+  },
+  {
+   "complaint_id": "4466007",
+   "rules": [
+    "I1"
+   ],
+   "sentence": "Again, XXXX XXXX is providing Synchrony with inaccurate information, and it seems Synchrony is just going to take their word for it and ignore all the phone records and emails, and timeline of events I have provided, proving otherwise.",
+   "phrases": [
+    "ignore all the phone records"
+   ]
+  },
+  {
+   "complaint_id": "3770084",
+   "rules": [
+    "I1",
+    "N1",
+    "N2"
+   ],
+   "sentence": "Please make immediate arrangements to add my husband, XXXX XXXX as my authorized agent in resolving this matter and taking whatever action is necessary to dismiss this charge from your records within 30 days from the date of this notice or I will have no choice but to retain legal counsel and pursue all remedies and recourse as allowed by the governing states and agencies of both Texas and Minnesota.",
+   "phrases": [
+    "dismiss this charge from your records"
+   ]
+  },
+  {
+   "complaint_id": "5547023",
+   "rules": [
+    "I1"
+   ],
+   "sentence": "Why did the credit card company ( Bank of America ) ignore this information?",
+   "phrases": [
+    "ignore this information"
+   ]
+  },
+  {
+   "complaint_id": "6410690",
+   "rules": [
+    "I3"
+   ],
+   "sentence": "A manager did indeed return the phone call on XX/XX/2022, but once again gave the same answer as the previous representative that XXXX did not allow them to accept disputes when the merchandise had not been returned to the merchant.",
+   "phrases": [
+    "answer as"
+   ]
+  },
+  {
+   "complaint_id": "3575127",
+   "rules": [
+    "I3",
+    "N5"
+   ],
+   "sentence": "Citi Financial Services and Home Depot act in tandem as conspirators and agents not as independent parties and said parties intrinsically do not act as responsible parties that objectively respond to customer complaints as they act to cheat customers by charging them and not resolving their issues wit the merchant.",
+   "phrases": [
+    "act as"
+   ]
+  },
+  {
+   "complaint_id": "6883415",
+   "rules": [
+    "I3"
+   ],
+   "sentence": "Ive spoken to the manager and the owner about this but they say they have no money to refund since they only have the invoices from XXXX and XXXX but not the ones from XXXX.",
+   "phrases": [
+    "say they have no money to refund"
+   ]
+  },
+  {
+   "complaint_id": "7257699",
+   "rules": [
+    "I1"
+   ],
+   "sentence": "I need assistance and would like to know my recourse for such a blatant disregard and for fans information being allowed on billing statements.",
+   "phrases": [
+    "disregard and for fans information"
+   ]
+  },
+  {
+   "complaint_id": "7862250",
+   "rules": [
+    "I3"
+   ],
+   "sentence": "I contacted XXXX for a return or refund, only to find they do neither.",
+   "phrases": [
+    "return or refund"
+   ]
+  },
+  {
+   "complaint_id": "2847777",
+   "rules": [
+    "I1"
+   ],
+   "sentence": "Why chase ignore all this clear evidence for investigation?",
+   "phrases": [
+    "ignore all this clear evidence"
+   ]
+  },
+  {
+   "complaint_id": "5191422",
+   "rules": [
+    "I3"
+   ],
+   "sentence": "I was concerned as we had closed our USAA account that the original charge was made to in XX/XX/XXXX and asked XXXX if we could provide a new credit card number or bank account to refund and they said their refund process would automatically refund to the original account and only if the funds were rejected could they then pursue an alternate way to repay us.",
+   "phrases": [
+    "automatically refund"
+   ]
+  },
+  {
+   "complaint_id": "4134373",
+   "rules": [
+    "I2"
+   ],
+   "sentence": "I have received many banks soliciting that I do get a credit card from them or that I was preapproved.",
+   "phrases": [
+    "preapproved"
+   ]
+  },
+  {
+   "complaint_id": "4134373",
+   "rules": [
+    "I2"
+   ],
+   "sentence": "I am not sure if XXXX Compass was one of the bankers who sent me a preapproved line of credit.",
+   "phrases": [
+    "preapproved"
+   ]
+  },
+  {
+   "complaint_id": "4035559",
+   "rules": [
+    "I3"
+   ],
+   "sentence": "SITUATION : I live in XXXX XXXX and they imposed a new rule on Americans flying into the country starting at midnight on XX/XX/XXXX, which required a 14-day quarantine in a hotel.",
+   "phrases": [
+    "new rule"
+   ]
+  },
+  {
+   "complaint_id": "7623289",
+   "rules": [
+    "I2"
+   ],
+   "sentence": "Moreover, the company 's fraud investigator in a letter to me dated XX/XX/XXXX concurred with me that all XXXX charges were fraudulent & stated to me over the phone that the company management had decided not to remove the other fraudulent charges from my account, The basis for this decision has not been shared with me.",
+   "phrases": [
+    "management had decided"
+   ]
+  },
+  {
+   "complaint_id": "5107002",
+   "rules": [
+    "I3"
+   ],
+   "sentence": "Your reply as shown below failed to address my response to your request for documentation.",
+   "phrases": [
+    "reply as"
+   ]
+  },
+  {
+   "complaint_id": "3314493",
+   "rules": [
+    "I4"
+   ],
+   "sentence": "OnXX/XX/2019weflewtoXXXXXXXXandattheairportlookingfortaxitotheportcityofXXXXXXXXtocatchacruise.Ahandleratairportexitstated{$85.00}fortheonehourtwentyminutesride,whichisinlinewithtaxiestimatesonline.Ataparkinglotwemetawomandriver,anethemanprocessedmycreditcard.Uponarrival,thewomansaidshecouldnotgivemeanyreceiptsinceshecannotprocesscreditinhercar.Oncereturnedhome,Ifoundoutwewereactuallycharged{$1400.00}fortheride.Iraisedissuewiththecreditcardcompanybutthreeweekslaterwasagaincharged{$1300.00}forthetransaction.IrequestedtoseeacopyofthereceiptsinceIdonotremembersigningone.Eventuallyitwasprovidedformewhichdidnotbearmysignature.ButtheladyatBankofAmerica(XXXX)saidaccordingtocreditcardpolicy,sincemycardwasnotstolen,Iconsentedwiththeservicerequested,andareceiptwasproduced,Ireallydonothavegroundstoprusuethematteranyfurther,despitethefactIdidnotacknowledge,agree,norsignthereceipt.",
+   "phrases": [
+    "Ireallydonothavegroundstoprusuethematteranyfurther"
+   ]
+  },
+  {
+   "complaint_id": "5931736",
+   "rules": [
+    "I3"
+   ],
+   "sentence": "As per his request I am sending all paperwork again in order for your team to solve and close this case, as it now approaches one year, countless hours on my part, trying to prove a charge never done by me.",
+   "phrases": [
+    "and close this case, as it now"
+   ]
+  },
+  {
+   "complaint_id": "5932036",
+   "rules": [
+    "I3"
+   ],
+   "sentence": "I have the records to prove it, and as I said previously, it was impossible for me to respond as I was out of the country and my phone was disconnected.",
+   "phrases": [
+    "respond as"
+   ]
+  },
+  {
+   "complaint_id": "2910403",
+   "rules": [
+    "I3",
+    "N1"
+   ],
+   "sentence": "Wells Fargo has finally denied again my claim, this time due to allegedly matching my signature \" on file '' with the signature allegedly captured and used by the merchant to charge my credit card, while even the merchant admitted in writing that someone stole my identity, pretend to be me and fled the country, and even invited me to put him in contact to Wells Fargo, promising he would cooperate to make sure I get my money back, only to later on, deny such cooperation after accusing me of wanting to \" enrich my self '' and wanting to collect twice the credit card charge refund since in the merchant 's knowledge and opinion Wells Fargo \" obviously already refunded me '' which sadly couldn't be more far from the truth.",
+   "phrases": [
+    "pretend to be"
+   ]
+  },
+  {
+   "complaint_id": "3545748",
+   "rules": [
+    "I4",
+    "N1"
+   ],
+   "sentence": "With an F in ref number ( XXXX+XXXX+XXXX+XXXX+XXXX+XXXX+XXXX+XXXX+XXXX+XXXX+XXXX +XXXX +XXXX ) Kindly note XX/XX/XXXX transactions have ( F ) in reference numbers indicating these are previous fraud charges that USAA put BACK ON CARD.",
+   "phrases": [
+    "XXXX+XXXX+XXXX+XXXX+XXXX+XXXX+XXXX+XXXX+XXXX+XXXX+XXXX"
+   ]
+  },
+  {
+   "complaint_id": "4624096",
+   "rules": [
+    "I3"
+   ],
+   "sentence": "Also enclosed is a copy of the Notice to Furnishers issued by the Federal Trade Commission, which details your responsibilities under the Fair Credit Reporting Act as an information furnisher to CRAs.",
+   "phrases": [
+    "Act as"
+   ]
+  },
+  {
+   "complaint_id": "6596940",
+   "rules": [
+    "I1"
+   ],
+   "sentence": "It was really easy to just take the merchant 's word and ignore all the documentation I had provided to them.",
+   "phrases": [
+    "ignore all the documentation"
+   ]
+  },
+  {
+   "complaint_id": "7079890",
+   "rules": [
+    "I3"
+   ],
+   "sentence": "XXXX is a company that is supposed to act as a middleman to verify the authenticity of shoes.",
+   "phrases": [
+    "act as"
+   ]
+  },
+  {
+   "complaint_id": "3860135",
+   "rules": [
+    "I2",
+    "N2"
+   ],
+   "sentence": "Chase said they could not reopen the dispute immediately and would need to wait until the dispute was officially resolved in their system.",
+   "phrases": [
+    "the dispute was officially resolved"
+   ]
+  },
+  {
+   "complaint_id": "3051915",
+   "rules": [
+    "I3",
+    "N2"
+   ],
+   "sentence": "I understand that the CFPB can not act as my lawyer, a court of law, or a financial advisor.",
+   "phrases": [
+    "act as"
+   ]
+  },
+  {
+   "complaint_id": "7493822",
+   "rules": [
+    "I4"
+   ],
+   "sentence": "LogicalInconsistency : Consideringthecircumstancessurroundingtheincident, it is inconceivable that a mere 10-15 minute taxi ride in XXXX, XXXX, between a boat ride on the XXXX XXXX and my hotel room, could result in a catering event in XXXX, amounting to an additional {$950.00}.",
+   "phrases": [
+    "Consideringthecircumstancessurroundingtheincident"
+   ]
+  },
+  {
+   "complaint_id": "7493822",
+   "rules": [
+    "I4",
+    "N1"
+   ],
+   "sentence": "AppealsProcess : Intheeventthatmyclaimisnotresolvedsatisfactorily, I kindly request information regarding the appeals process.",
+   "phrases": [
+    "Intheeventthatmyclaimisnotresolvedsatisfactorily"
+   ]
+  },
+  {
+   "complaint_id": "4091892",
+   "rules": [
+    "I3"
+   ],
+   "sentence": "If you cancel the auto renewal you must close out the whole account.",
+   "phrases": [
+    "you must close"
+   ]
+  },
+  {
+   "complaint_id": "7517675",
+   "rules": [
+    "I3"
+   ],
+   "sentence": "FROM GEMINI : As mentioned in our response to your XX/XX/XXXX CFPB complaint, Gemini may be able to revisit the outcome of your dispute if the merchant refuses to grant you access to the purchased online courses after XXXX  ( this takes into account time needed to settle the initially disputed amount ).",
+   "phrases": [
+    "FROM GEMINI :"
+   ]
+  },
+  {
+   "complaint_id": "6526104",
+   "rules": [
+    "I1"
+   ],
+   "sentence": "They also told me that the never check IDs, as if someone has the physical card, that is good enough.",
+   "phrases": [
+    "never check"
+   ]
+  },
+  {
+   "complaint_id": "3428944",
+   "rules": [
+    "I3"
+   ],
+   "sentence": "If the sales receipt was deposited more than 181 days after the transaction date, even if the card account is not closed, there is no remedy and you should accept the chargeback.",
+   "phrases": [
+    "you should accept"
+   ]
+  },
+  {
+   "complaint_id": "3145402",
+   "rules": [
+    "I3"
+   ],
+   "sentence": "Citibank has consistently violated the consumer protection act as result of their own negligence and improper closing of dispute without my evidence to show illegal activity and services not rendered from merchant.",
+   "phrases": [
+    "act as"
+   ]
+  },
+  {
+   "complaint_id": "3133025",
+   "rules": [
+    "I3"
+   ],
+   "sentence": "Like I said before you WILL respond whether you like it or not and I will not stop writing letters until I get every single detail.",
+   "phrases": [
+    "you WILL respond"
+   ]
+  },
+  {
+   "complaint_id": "4498764",
+   "rules": [
+    "I2"
+   ],
+   "sentence": "She informed me that a supervisor has approved the credits and assured me the credits will be applied for both the {$290.00} and {$9800.00} amounts by the XX/XX/XXXX billing cycle end.",
+   "phrases": [
+    "supervisor has approved"
+   ]
+  },
+  {
+   "complaint_id": "3056166",
+   "rules": [
+    "I2"
+   ],
+   "sentence": "Changes to the contract were suggested & approved by the CEO- but they refused to put the new terms into contract & allow me to review/approve/sign.",
+   "phrases": [
+    "approved by the CEO"
+   ]
+  },
+  {
+   "complaint_id": "6564719",
+   "rules": [
+    "I3"
+   ],
+   "sentence": "I then told them to cancel the order as it was not shipped as promised and which I am legally allowed to do under the BUSINESS PRACTICES AND CONSUMER PROTECTION ACT as I never accepted the late delivery date and the shipment was 30 days late.",
+   "phrases": [
+    "ACT as"
+   ]
+  },
+  {
+   "complaint_id": "6564719",
+   "rules": [
+    "I3"
+   ],
+   "sentence": "Maybe it is the fact that everytime I email you you say you will respond in a few days and then I get the second lame email that says because of exceptional high volume it will take longer to respond.",
+   "phrases": [
+    "you will respond"
+   ]
+  },
+  {
+   "complaint_id": "6967561",
+   "rules": [
+    "I3"
+   ],
+   "sentence": "I urge Capital one to take immediate action to refund the full amount charged to my credit card account.",
+   "phrases": [
+    "action to refund"
+   ]
+  },
+  {
+   "complaint_id": "3163768",
+   "rules": [
+    "I3"
+   ],
+   "sentence": "They stated in a letter that since I had paid my bill, that I automatically accept all charges made on the account.",
+   "phrases": [
+    "automatically accept"
+   ]
+  },
+  {
+   "complaint_id": "3727428",
+   "rules": [
+    "I1"
+   ],
+   "sentence": "I have another fraudulent charge in wich discover dont investigate that is from XXXX XXXX for XXXX XXXX I was told that Ill be receiving a call from XXXX XXXX.",
+   "phrases": [
+    "dont investigate"
+   ]
+  },
+  {
+   "complaint_id": "3982423",
+   "rules": [
+    "I1"
+   ],
+   "sentence": "I also have cancelled my credit card with Citibank since I do NOT think they represent their customers and do NOT investigate claims made of fraudulent merchants.",
+   "phrases": [
+    "do NOT investigate"
+   ]
+  },
+  {
+   "complaint_id": "2974163",
+   "rules": [
+    "I3"
+   ],
+   "sentence": "After several attempts both in XX/XX/XXXX, XX/XX/XXXX, XX/XX/XXXX and XX/XX/XXXX with each rep telling me new information 's and a new task for me to complete the issue was never resolved.",
+   "phrases": [
+    "new task"
+   ]
+  },
+  {
+   "complaint_id": "3035482",
+   "rules": [
+    "I3",
+    "N2"
+   ],
+   "sentence": "I respond as follows : \" Hello, I am providing information as requested by a letter I received today.",
+   "phrases": [
+    "respond as"
+   ]
+  },
+  {
+   "complaint_id": "4158577",
+   "rules": [
+    "I3",
+    "N1"
+   ],
+   "sentence": "In XXXX I made A {$1000.00} payment and told the phone rep that the payment is for XXXX and XXXX I am having XXXX and I want to be ok as far as late Problem is citi customer service is in XXXX and XXXX they all have trouble understand English therefore they dont know what to do put u on hold too much lai make fun of laugh and pretend to be a supervisor So XXXX comes I keep getting call 3-4 times a day I call citi to find out what is going on and they told me I am late past due and delinquent Why they took this harsh un necessary action when I didnt do anything wrong After my complaint to executive office XXXX told me the person handling my issue will call me by friday XX/XX/21 And will stop the phone harassment Do to Texas cold No one called me so I called back left.",
+   "phrases": [
+    "pretend to be"
+   ]
+  },
+  {
+   "complaint_id": "3112574",
+   "rules": [
+    "I3"
+   ],
+   "sentence": "'' Sorry but you're legally required to and you WILL respond to this letter as well otherwise the CFPB will fine you = ).",
+   "phrases": [
+    "you WILL respond"
+   ]
+  },
+  {
+   "complaint_id": "3112574",
+   "rules": [
+    "I3"
+   ],
+   "sentence": "You WILL respond to this letter don't ever tell me you wont respond to further inquiries I'm going to make sure you guys spend, spend, and spend on this investigation probably already $ XXXX Deep, lawyer gunna cost you at least $ XXXX $ XXXX for trial.",
+   "phrases": [
+    "You WILL respond"
+   ]
+  },
+  {
+   "complaint_id": "2959432",
+   "rules": [
+    "I2"
+   ],
+   "sentence": "What is the value of expending time and resources on a dispute process if Discover allows a merchant to simply bill the customer again after the dispute has already been resolved in the customer 's favor and closed?",
+   "phrases": [
+    "the dispute has already been resolved"
+   ]
+  },
+  {
+   "complaint_id": "3651093",
+   "rules": [
+    "I3"
+   ],
+   "sentence": "Fith Third will deny and close the case immediately after sending a letter for further infomation and will only reopen the case if the consumer calls in to find out why?",
+   "phrases": [
+    "and close the case immediately"
+   ]
+  },
+  {
+   "complaint_id": "3437936",
+   "rules": [
+    "I3"
+   ],
+   "sentence": "Model:    XXXX XXXX",
+   "phrases": [
+    "Model:"
+   ]
+  },
+  {
+   "complaint_id": "3334114",
+   "rules": [
+    "I1"
+   ],
+   "sentence": "I have submitted documentation multiple times, and Chase has chosen to either ignore my documentation or take the manipulated documents from the merchant as valid.",
+   "phrases": [
+    "ignore my documentation"
+   ]
+  },
+  {
+   "complaint_id": "4520111",
+   "rules": [
+    "I2"
+   ],
+   "sentence": "One day prior a Claims Manager had confirmed my dispute was going to arbitration on a recorded line afterwards the staff member in Executive Relations denied the Ckaims Manager stated it, even though the call was recorded.",
+   "phrases": [
+    "Manager had confirmed"
+   ]
+  },
+  {
+   "complaint_id": "4322724",
+   "rules": [
+    "I1"
+   ],
+   "sentence": "American Express continues to disregard all of our information and simply denies our claim.",
+   "phrases": [
+    "disregard all of our information"
+   ]
+  },
+  {
+   "complaint_id": "3101648",
+   "rules": [
+    "I1"
+   ],
+   "sentence": "She stated the CFO or CEO never review the errors on the account nor anyone with a degree or license in accounting or finance.",
+   "phrases": [
+    "never review"
+   ]
+  },
+  {
+   "complaint_id": "2988782",
+   "rules": [
+    "I3",
+    "N1"
+   ],
+   "sentence": "I decided to try and make a second call the following day on XX/XX/XXXX and see if a different representative would help me out but I was wrong I got the same respond as the previous day.",
+   "phrases": [
+    "respond as"
+   ]
+  },
+  {
+   "complaint_id": "2940849",
+   "rules": [
+    "I1"
+   ],
+   "sentence": "My card kept declining and I had to call customer service who then connected me to the fraud department to verify it was me making the purchase..I did and they tried to override the system for the payment to go through but It never went through on XXXX end.",
+   "phrases": [
+    "override the system"
+   ]
+  },
+  {
+   "complaint_id": "3112336",
+   "rules": [
+    "I1"
+   ],
+   "sentence": "I called AMEX to get a refund, but they said the contract states the hotel can cancel and keep your money if you don't check in by XXXX.",
+   "phrases": [
+    "don't check"
+   ]
+  },
+  {
+   "complaint_id": "3118047",
+   "rules": [
+    "I3"
+   ],
+   "sentence": "I was not aware that if I updated the transaction on Chase, that it would automatically close the case on XXXX.",
+   "phrases": [
+    "automatically close"
+   ]
+  },
+  {
+   "complaint_id": "3118047",
+   "rules": [
+    "I2"
+   ],
+   "sentence": "\" No, the case has already been decided in your favor, and the {$120.00} credit was issued to your account.",
+   "phrases": [
+    "the case has already been decided"
+   ]
+  },
+  {
+   "complaint_id": "3197882",
+   "rules": [
+    "I2"
+   ],
+   "sentence": "That day they told me that my case had already been resolved ; that they had sent me a letter ( second letter that up until now I havent received ) where the resolution of the case was that I had done those transactions.",
+   "phrases": [
+    "my case had already been resolved"
+   ]
+  },
+  {
+   "complaint_id": "3398550",
+   "rules": [
+    "I1"
+   ],
+   "sentence": "Citibank : Are there any records of this transaction : Merchant 's Spouse : No, we discard our records within 5 months.",
+   "phrases": [
+    "discard our records"
+   ]
+  },
+  {
+   "complaint_id": "4795472",
+   "rules": [
+    "I3",
+    "N1"
+   ],
+   "sentence": "was added to the account.My rights were violated by the Fair Credit Billing Act, FTC.I should have been charged a maximum of $ XXXX spoke to several people.XXXX told me my case was closed and there was nothing else he could do and XXXX, wouldn't give last name, spoke to him XXXX XXXX a supervisor, said would open case with new info, which I provided and possible scenario of what might have happened .No adjustments to account just overdrawn balance and many fees.Please Help, their XXXX fraud liability has not been applied to me.Also, someone could easily get my pin, just pretend to be me and giving them the info off my card and you enter the number yourself, fraud dept.",
+   "phrases": [
+    "pretend to be"
+   ]
+  },
+  {
+   "complaint_id": "4802131",
+   "rules": [
+    "I3"
+   ],
+   "sentence": "We provided Chase all documents showing the supplier would not send out the items and we were protected under the Fair Credit Reporting Act as the under the Fair Credit Billing Act ( FCBA ), ( 15 U.S.",
+   "phrases": [
+    "Act as"
+   ]
+  },
+  {
+   "complaint_id": "3634644",
+   "rules": [
+    "I2"
+   ],
+   "sentence": ") I am insistent that all of the above transactions from various XXXX sellers of digital content are fraudulent, as they were not authorized by the owner of the XXXX account, nor the cardholder, both of which happen to be me.",
+   "phrases": [
+    "authorized by the owner"
+   ]
+  },
+  {
+   "complaint_id": "3537580",
+   "rules": [
+    "I1",
+    "N1"
+   ],
+   "sentence": "I believe the CITI dispute team never investigate the case or even look at the supporting materials I sent to them.",
+   "phrases": [
+    "never investigate"
+   ]
+  },
+  {
+   "complaint_id": "4974301",
+   "rules": [
+    "I3"
+   ],
+   "sentence": "They said they called this company and got no answer as did I - the business dissolved XX/XX/XXXX and I have tried calling the phone number associated with it and no answer, XXXX XXXX said for me to file with my local sheriff office.",
+   "phrases": [
+    "answer as"
+   ]
+  },
+  {
+   "complaint_id": "4079656",
+   "rules": [
+    "I2"
+   ],
+   "sentence": "And that even though the XXXX and XXXX supervisor told me I was already approved for the credit they don't know about that.",
+   "phrases": [
+    "supervisor told me I was already approved"
+   ]
+  },
+  {
+   "complaint_id": "3150112",
+   "rules": [
+    "I3"
+   ],
+   "sentence": "I have proved that XXXX was alerted the items were damaged PRIOR to the request for the return - thus your reply as that is the reason why you are not proceeding with the dispute and find no error is FALSE.",
+   "phrases": [
+    "reply as"
+   ]
+  },
+  {
+   "complaint_id": "2701940",
+   "rules": [
+    "I1"
+   ],
+   "sentence": "My computer on the XX/XX/XXXX was hacked and was provided information that if I dont follow these procedures to regain a properly working computer I was in trouble.",
+   "phrases": [
+    "dont follow these procedures"
+   ]
+  },
+  {
+   "complaint_id": "2783159",
+   "rules": [
+    "I1"
+   ],
+   "sentence": "Capital One chose to ignore all this information and refused to reverse charges, saying I could n't provide them with a cancellaltion #.",
+   "phrases": [
+    "ignore all this information"
+   ]
+  },
+  {
+   "complaint_id": "3397466",
+   "rules": [
+    "I3"
+   ],
+   "sentence": "While this policy is valid I still feel I am to be protected under the Fair Credit Billing Act as I did NOT receive the product I ordered.",
+   "phrases": [
+    "Act as"
+   ]
+  },
+  {
+   "complaint_id": "5228691",
+   "rules": [
+    "I1"
+   ],
+   "sentence": "I ASKED THE MANAGER, YOU GUYS DON'T CHECK ID WHEN CHECKING IN.",
+   "phrases": [
+    "DON'T CHECK"
+   ]
+  },
+  {
+   "complaint_id": "3149711",
+   "rules": [
+    "I1"
+   ],
+   "sentence": "I WAS TOLD I COULD DISCARD MY RECORDS.",
+   "phrases": [
+    "DISCARD MY RECORDS"
+   ]
+  },
+  {
+   "complaint_id": "2719805",
+   "rules": [
+    "I3"
+   ],
+   "sentence": "I EXPECTED CITI TO ACT AS MY AGENT IN DISPUTE OF THESE FEES.",
+   "phrases": [
+    "ACT AS"
+   ]
+  },
+  {
+   "complaint_id": "2713430",
+   "rules": [
+    "I1"
+   ],
+   "sentence": "Its been 5 more month, and the bank never call, never provide proof, and keep charging me interest, keep making up stories to ask me to wait, not easy to access to talk to the investigator, ignore my proof ...",
+   "phrases": [
+    "ignore my proof"
+   ]
+  },
+  {
+   "complaint_id": "4454913",
+   "rules": [
+    "I2"
+   ],
+   "sentence": "Chase is still refusing to issue me any refunds for this dispute even though XXXX had already approved the refunds.",
+   "phrases": [
+    "this dispute even though XXXX had already approved"
+   ]
+  },
+  {
+   "complaint_id": "3734433",
+   "rules": [
+    "I2"
+   ],
+   "sentence": "In the contract between myself and XXXX, all items and services must be pre-approved by me.",
+   "phrases": [
+    "pre-approved"
+   ]
+  },
+  {
+   "complaint_id": "7308054",
+   "rules": [
+    "I3"
+   ],
+   "sentence": "After locking my card in early XXXX I was billed for a transaction that I did not authorize & US Bank has violated the truth in lending act as shown in the attachment",
+   "phrases": [
+    "act as"
+   ]
+  },
+  {
+   "complaint_id": "2654678",
+   "rules": [
+    "I3"
+   ],
+   "sentence": "SunTrust habits with complaints is act as thou the charging party is apart of the bank operation and appears to assist in undermining the customer rights under federal law.",
+   "phrases": [
+    "act as"
+   ]
+  },
+  {
+   "complaint_id": "5932199",
+   "rules": [
+    "I3"
+   ],
+   "sentence": "I have the records to prove it, and as I said previously, it was impossible for me to respond as I was out of the country and my phone was disconnected.",
+   "phrases": [
+    "respond as"
+   ]
+  },
+  {
+   "complaint_id": "5931212",
+   "rules": [
+    "I3"
+   ],
+   "sentence": "We can give you the steps on what happens within the dispute process, however our actual instructions on how we process the dispute is the Intellectual Property of the company.",
+   "phrases": [
+    "actual instructions"
+   ]
+  },
+  {
+   "complaint_id": "2651206",
+   "rules": [
+    "I2"
+   ],
+   "sentence": "He is also being suspected as the person who broke into my home, stole my car and my mail, as well as opening a credit card in my name from a \" pre-approved '' application.",
+   "phrases": [
+    "pre-approved"
+   ]
+  },
+  {
+   "complaint_id": "2547776",
+   "rules": [
+    "I3",
+    "N2"
+   ],
+   "sentence": "Chase should leave this to a court to decide on the matter, not act as the judge.",
+   "phrases": [
+    "act as"
+   ]
+  },
+  {
+   "complaint_id": "4243559",
+   "rules": [
+    "I2"
+   ],
+   "sentence": "I SUBMIT A DISPUTE TWO DAYS AGO AND THE DISPUTE IS ALREADY RESOLVED WITH CONTACTING ME FOR ANY PROOF OR EVIDENCE ON THE CAR RENTAL.",
+   "phrases": [
+    "THE DISPUTE IS ALREADY RESOLVED"
+   ]
+  },
+  {
+   "complaint_id": "4789263",
+   "rules": [
+    "I3"
+   ],
+   "sentence": "I was informed that the initial decision to refund me had been reversed, and now the best that could be done was to reopen the old case.",
+   "phrases": [
+    "decision to refund"
+   ]
+  },
+  {
+   "complaint_id": "5322552",
+   "rules": [
+    "I3"
+   ],
+   "sentence": "A frustrating answer as you can file a claim online, but not add any information nor documents/proof online.",
+   "phrases": [
+    "answer as"
+   ]
+  },
+  {
+   "complaint_id": "3703405",
+   "rules": [
+    "I3"
+   ],
+   "sentence": "In addition to completing the latest request for more ( of the same information, repeatedly, which I was advised to respond as \" Asked and Answered '' if already answered following many times of already having presented before from the 1st certified letter, fax, and 2nd certified letter, again.",
+   "phrases": [
+    "respond as"
+   ]
+  },
+  {
+   "complaint_id": "5013507",
+   "rules": [
+    "I3"
+   ],
+   "sentence": "NAVY FEDERAL CREDIT UNION has discriminated against me, pursuant to the Consumer Credit Protection Act and in accordance with the Equal Credit Opportunity Act as described in 12 CFR 202.2 ( n ) ; Discriminate against an applicant means to treat an applicant less favorably than other applicants.Despite the fact that I, the consumer, have extended my credit in good faith.",
+   "phrases": [
+    "Act as"
+   ]
+  },
+  {
+   "complaint_id": "5987310",
+   "rules": [
+    "I1"
+   ],
+   "sentence": "The only way we actually received the credit we were entitled to was a long drive to vendor site since Elan Financial staff ignore cardholder documentation.",
+   "phrases": [
+    "ignore cardholder documentation"
+   ]
+  },
+  {
+   "complaint_id": "5268712",
+   "rules": [
+    "I3"
+   ],
+   "sentence": "Merchant Wayfair  has assured that they would reach Citicard and will issue a credit through Citi Cards department but have taken no action on the promise and are sitting tight with one extra payment taking no action to refund/ reverse this extra payment Wayfair  received.",
+   "phrases": [
+    "action to refund"
+   ]
+  },
+  {
+   "complaint_id": "2700498",
+   "rules": [
+    "I2"
+   ],
+   "sentence": "The dispute department would say it 's up to the fraud investigations department to provide further details, as far as the disputes department was concerned the case was already resolved.",
+   "phrases": [
+    "the case was already resolved"
+   ]
+  },
+  {
+   "complaint_id": "5543309",
+   "rules": [
+    "I3"
+   ],
+   "sentence": "To be able to act as an investment intermediary, or broker, or similar i.e., in order to have the capacity to offer financial advice and to provide access to regulated financial products to third parties one has to be registered with the relevant supervisory authorities.",
+   "phrases": [
+    "act as"
+   ]
+  },
+  {
+   "complaint_id": "3606741",
+   "rules": [
+    "I3"
+   ],
+   "sentence": "FRAUDULENT MERCHANT IS NOT LICENSED TO ACT AS AN INSURANCE BROKER IN THE STATE OF FLORIDA.",
+   "phrases": [
+    "ACT AS"
+   ]
+  },
+  {
+   "complaint_id": "4035742",
+   "rules": [
+    "I2"
+   ],
+   "sentence": "There is also no deadline to file a VROL pre compliance notice.",
+   "phrases": [
+    "compliance notice"
+   ]
+  },
+  {
+   "complaint_id": "2482375",
+   "rules": [
+    "I3"
+   ],
+   "sentence": "All that they do is open a claim for you, email you the claim #, then close the claim without doing anything.",
+   "phrases": [
+    "then close the claim without"
+   ]
+  },
+  {
+   "complaint_id": "6198861",
+   "rules": [
+    "I2"
+   ],
+   "sentence": "At XXXX point the XXXX woman told my case had already been resolved in my favor and the {$690.00} amount had been credited on my account.",
+   "phrases": [
+    "my case had already been resolved"
+   ]
+  },
+  {
+   "complaint_id": "3088526",
+   "rules": [
+    "I3"
+   ],
+   "sentence": "I contacted Rental company on XX/XX/XXXX, but got the same reply as before : nobody dealing with credit card charges and nobody replied to e-mail.",
+   "phrases": [
+    "reply as"
+   ]
+  },
+  {
+   "complaint_id": "4123129",
+   "rules": [
+    "I3"
+   ],
+   "sentence": "On XX/XX/XXXX I contacted XXXX ( I attached my credit card to my XXXX account and this is how I payed for processor ), and opened a dispute with them thinking that they would check with XXXX as XXXX wouldn't, but I was wrong, they came back with the same answer as XXXX and wouldn't call XXXX either.",
+   "phrases": [
+    "answer as"
+   ]
+  },
+  {
+   "complaint_id": "4199505",
+   "rules": [
+    "I1"
+   ],
+   "sentence": "It appears to me that they intend to never investigate and to never correct their egregious errors!",
+   "phrases": [
+    "never investigate"
+   ]
+  },
+  {
+   "complaint_id": "4571436",
+   "rules": [
+    "I3",
+    "N2"
+   ],
+   "sentence": ", Was Given A Time Frame Of 90XXXX, that they would have a final decision to refund the said amount listed above, it is now 90 days today they still haven't made a decision, nor have they returned my funds, it's been constant game playing for 90 days, now they are saying that have all night to make a decision because they're open XXXX.",
+   "phrases": [
+    "decision to refund"
+   ]
+  },
+  {
+   "complaint_id": "5649316",
+   "rules": [
+    "I3"
+   ],
+   "sentence": "To be able to act as an investment intermediary, or broker, or similar i.e., to have the capacity to offer financial advice and to provide access to regulated financial products to third parties one must be registered with the relevant supervisory authorities.",
+   "phrases": [
+    "act as"
+   ]
+  },
+  {
+   "complaint_id": "7386900",
+   "rules": [
+    "I3"
+   ],
+   "sentence": "If this is your new rule or policy, why didnt I know as a 7 year faithful and honest customer?",
+   "phrases": [
+    "new rule"
+   ]
+  },
+  {
+   "complaint_id": "6556162",
+   "rules": [
+    "I3"
+   ],
+   "sentence": "XXXX also attempts to act as a mental health practitioner, asking questions about childhood/background and making canned recommendations based on responses.",
+   "phrases": [
+    "act as"
+   ]
+  },
+  {
+   "complaint_id": "6740179",
+   "rules": [
+    "I1"
+   ],
+   "sentence": "It is unreal that Nordstrom 's can overlook this proof.",
+   "phrases": [
+    "overlook this proof"
+   ]
+  },
+  {
+   "complaint_id": "6262431",
+   "rules": [
+    "I1"
+   ],
+   "sentence": "They ask for documents then never review them.",
+   "phrases": [
+    "never review"
+   ]
+  }
+ ],
+ "top_phrases": [
+  [
+   "I3",
+   "act as",
+   22
+  ],
+  [
+   "I3",
+   "answer as",
+   6
+  ],
+  [
+   "I3",
+   "respond as",
+   5
+  ],
+  [
+   "I3",
+   "pretend to be",
+   4
+  ],
+  [
+   "I3",
+   "reply as",
+   4
+  ],
+  [
+   "I2",
+   "pre-approved",
+   4
+  ],
+  [
+   "I1",
+   "never investigate",
+   4
+  ],
+  [
+   "I3",
+   "you will respond",
+   4
+  ],
+  [
+   "I3",
+   "automatically close",
+   3
+  ],
+  [
+   "I2",
+   "preapproved",
+   3
+  ],
+  [
+   "I3",
+   "decision to refund",
+   3
+  ],
+  [
+   "I1",
+   "ignore all the evidence",
+   2
+  ],
+  [
+   "I1",
+   "never verify",
+   2
+  ],
+  [
+   "I3",
+   "new rule",
+   2
+  ],
+  [
+   "I3",
+   "action to refund",
+   2
+  ],
+  [
+   "I1",
+   "never review",
+   2
+  ],
+  [
+   "I1",
+   "don't check",
+   2
+  ],
+  [
+   "I2",
+   "my case had already been resolved",
+   2
+  ],
+  [
+   "I1",
+   "bypass the system",
+   1
+  ],
+  [
+   "I3",
+   "new rules",
+   1
+  ],
+  [
+   "I2",
+   "my dispute and citi already resolved",
+   1
+  ],
+  [
+   "I4",
+   "fraudulentchargesweremadetomycitibankaad",
+   1
+  ],
+  [
+   "I4",
+   "informingmethattheydidnotconsidermydispu",
+   1
+  ],
+  [
+   "I4",
+   "citiiscurrentlyinviolationoftheirownterm",
+   1
+  ],
+  [
+   "I3",
+   "you will answer",
+   1
+  ]
+ ]
+}
