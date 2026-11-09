@@ -121,6 +121,15 @@ becomes a `request` statement. It is shown, noted, and never changes the decisio
 *against* the claim and is not an injection. Only text that directs the decider, the AI or the system ("approve
 this", "ignore the evidence") is an `instruction`; it is shown struck through and ignored.
 
+**Photos** (`app/photos.py`). A vision model on Nebius (`nvidia/Nemotron-3.5-Super-VL`, fallback
+`google/gemma-3-27b-it`) describes each photo into a fixed schema: object, colour, visible damage, confidence. It never
+sees the claim and never compares two photos. Plain code then runs the checks: the buyer's photo against the shop's
+dispatch photo (intact when packed and damaged on arrival is transit damage: refund the buyer and claim from the
+carrier), the buyer's photo against the listing (wrong object or colour), a perceptual hash (the buyer sent back the
+shop's own picture, or the same picture is on another dispute), and the photo's capture time against the delivery scan.
+An unreadable, low-confidence or screen photo is never a reason to refuse; it goes to a person. The demo photos are
+real photographs from Wikimedia Commons (`data/photos/CREDITS.md`), none generated.
+
 **Status and activity.** A strip above the queue counts disputes and dollars by status (new, needs you, refunded,
 partially refunded, evidence sent and awaiting PayPal, won, lost, handled by auto). Chips filter the grid, a search
 box filters by order or last action, and "needs you" sorts first. Each order shows its last action and time.
@@ -194,8 +203,13 @@ PayPal takes a minute or two to list new disputes.
 - **The eval is small and hand-made.** It has 30 cases. The truths and the keyword splitter were written by the same
   author, so the fallback has seen phrasings like these. The eval tests the checker and the decision rule on known
   evidence, not how well real claims are understood. Its evidence is fixture data, and it does not call PayPal.
-- **Code cannot see the goods.** "Arrived damaged" and "it's fake" come out unverifiable, and Warrant decides them on
-  cost alone, so it gets some wrong. RESULTS.md lists every miss.
+- **Photos help, but only when there are photos.** With a buyer photo and a dispatch photo, the photo checks scored
+  14 of 14 on a held-out photo set (vision model deciding alone: 10 of 14), but that set is small and hand-made.
+  "It's fake", or damage with no photo from either side, is still unverifiable in code and goes to a person.
+  RESULTS.md lists every miss.
+- **Real data is real text, not real outcomes.** The complaints are real CFPB narratives and the attacks are real public
+  prompts, but the merchant evidence is constructed and the labels are mine, so it does not show Warrant would have won
+  real disputes.
 - **Webhooks are wired up but not used.** The endpoint `/api/webhooks/paypal` verifies signatures with PayPal, but no
   public URL existed locally, so intake is by polling.
 - The sandbox seller actions are gated by PayPal's own links. Some (`make-offer`, `require-evidence`) were never
