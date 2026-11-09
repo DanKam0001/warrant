@@ -36,9 +36,9 @@ function initQueue() {
   queueApi = agGrid.createGrid($("#queueGrid"), {
     suppressColumnVirtualisation: true,
     columnDefs: [
-      { field: "status_rank", headerName: "Status", width: 150, sort: "asc", sortIndex: 0, cellRenderer: (p) => `<span class="chip s-${p.data.status}">${esc(p.data.status_label)}</span>${p.data.auto_handled ? ' <span class="chip auto">auto</span>' : ""}` },
-      { field: "order", headerName: "Order", width: 82 },
-      { field: "amount", headerName: "Amount", width: 78, valueFormatter: (p) => money(p.value) },
+      { field: "status_rank", headerName: "Status", width: 145, sort: "asc", sortIndex: 0, cellRenderer: (p) => `<span class="chip s-${p.data.status}">${esc(p.data.status_label)}</span>${p.data.auto_handled ? ' <span class="chip auto">auto</span>' : ""}` },
+      { field: "order", headerName: "Order", width: 100 },
+      { field: "amount", headerName: "Amount", width: 84, valueFormatter: (p) => money(p.value) },
       { field: "decision", headerName: "Warrant", width: 92, cellRenderer: (p) => (p.value ? `<span class="chip ${p.value}">${p.value === "review" ? "review" : p.value}</span>` : "") },
       { field: "last_at", headerName: "Last action", flex: 1, minWidth: 130, sort: "desc", sortIndex: 1, cellRenderer: (p) => (p.data.last_text ? `${esc(p.data.last_text)} <span class="muted">${esc(ago(p.value))}</span>` : '<span class="muted">none yet</span>') },
     ],
