@@ -386,7 +386,7 @@ $("#tryBtn").addEventListener("click", async () => {
 $("#resetBtn").addEventListener("click", async () => {
   if (!confirm("Wipe local cases and create fresh sandbox orders + disputes?")) return;
   current = null; $("#case").hidden = true; $("#caseEmpty").hidden = false;
-  try { await api("/api/reset", { method: "POST" }); } catch (e) { alert(e.message); }
+  try { await api("/api/reset?photos=true", { method: "POST" }); } catch (e) { alert(e.message); }
   refresh();
 });
 
