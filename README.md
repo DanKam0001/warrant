@@ -162,9 +162,9 @@ PayPal takes a minute or two to list new disputes.
 - Real-data eval (calls the model, capped): `.venv\Scripts\python.exe scripts/run_real_eval.py` writes `eval/real_results.json`; `--no-model` runs the free parts and `--reuse-llm` reuses the first run's LLM-alone results.
 - Screenshots: `.venv\Scripts\python.exe scripts\screenshot_ui.py` (Playwright driving the installed Edge, with the
   app running; `pip install playwright` first, it is not in `requirements.txt`) saves `proof_results/ui_*.png`.
-- Tests: `.venv\Scripts\python.exe -m pytest -q` (61 tests) covers the checker, the decision rule, the floor and
+- Tests: `.venv\Scripts\python.exe -m pytest -q` (110 tests) covers the checker, the decision rule, the floor and
   policy, review and partial refunds, request-versus-injection pairs, status and the activity log, auto mode with a
-  mock PayPal (including the daily cap and the kill switch), and the HTTP API.
+  mock PayPal (including the daily cap and the kill switch), the photo checks, and the HTTP API.
 
 ## AI used
 
